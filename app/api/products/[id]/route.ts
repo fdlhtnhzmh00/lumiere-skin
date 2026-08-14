@@ -1,8 +1,13 @@
 /**
  * app/api/products/[id]/route.ts
- * GET    /api/products/:id  - Ambil detail produk berdasarkan ID
+ * GET    /api/products/:id  - Ambil detail produk (by CUID id ATAU slug)
  * PATCH  /api/products/:id  - Perbarui data produk (memerlukan autentikasi)
- * DELETE /api/products/:id  - Hapus produk - soft delete (memerlukan autentikasi)
+ * DELETE /api/products/:id  - Hapus produk / soft delete (memerlukan autentikasi)
+ *
+ * Parameter :id menerima CUID (id internal) ATAU slug produk secara transparan.
+ * Contoh:
+ *   GET /api/products/clxxxxx              → cari by id
+ *   GET /api/products/vitamin-c-brightening-serum → cari by slug ✓
  */
 
 import { NextRequest } from "next/server";
@@ -24,23 +29,34 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
+// Helper: cari produk berdasarkan id (CUID) atau slug
+async function findProduct(idOrSlug: string) {
+  return prisma.product.findFirst({
+    where: {
+      OR: [
+        { id: idOrSlug },
+        { slug: idOrSlug },
+      ],
+      isActive: true,
+    },
+    include: {
+      category: { select: { id: true, name: true, slug: true } },
+    },
+  });
+}
+
 // ─────────────────────────────────────────────────────────────
 // GET /api/products/:id
+// Menerima CUID atau slug produk secara transparan.
 // ─────────────────────────────────────────────────────────────
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     void request;
     const { id } = await params;
 
-    const product = await prisma.product.findUnique({
-      where: { id },
-      include: {
-        category: { select: { id: true, name: true, slug: true } },
-      },
-    });
+    const product = await findProduct(id);
 
-    // Produk tidak ada atau sudah di-soft-delete
-    if (!product || !product.isActive) {
+    if (!product) {
       return notFound("Produk tidak ditemukan");
     }
 
@@ -54,23 +70,20 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 // ─────────────────────────────────────────────────────────────
 // PATCH /api/products/:id  [AUTH REQUIRED]
 // Semua field bersifat opsional (partial update).
-// Minimal 1 field harus disertakan.
 // ─────────────────────────────────────────────────────────────
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    // 1. Verifikasi autentikasi
     const auth = await requireAuth(request);
     if (!auth.success) return auth.response;
 
     const { id } = await params;
 
-    // 2. Cek produk ada
-    const existing = await prisma.product.findUnique({ where: { id } });
-    if (!existing || !existing.isActive) {
+    // Cek produk ada (by id atau slug)
+    const existing = await findProduct(id);
+    if (!existing) {
       return notFound("Produk tidak ditemukan");
     }
 
-    // 3. Parse body
     let body: Record<string, unknown>;
     try {
       body = await request.json();
@@ -78,7 +91,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return badRequest("Request body harus berupa JSON yang valid");
     }
 
-    // 4. Validasi field yang disertakan
+    // Validasi field yang disertakan
     if (body.name !== undefined) {
       const err = validateProductName(body.name);
       if (err) return badRequest(err);
@@ -98,7 +111,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       if (!category) return badRequest("Kategori tidak ditemukan");
     }
 
-    // 5. Bangun data update (hanya field yang ada di body)
     const updateData: Record<string, unknown> = {};
     if (body.name        !== undefined) updateData.name        = String(body.name).trim();
     if (body.description !== undefined) updateData.description = String(body.description).trim();
@@ -115,9 +127,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return badRequest("Tidak ada data yang diperbarui");
     }
 
-    // 6. Update produk
+    // Update menggunakan id asli dari database (bukan slug yang dikirim)
     const updated = await prisma.product.update({
-      where: { id },
+      where: { id: existing.id },
       data: updateData,
       include: {
         category: { select: { id: true, name: true, slug: true } },
@@ -134,26 +146,22 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 // ─────────────────────────────────────────────────────────────
 // DELETE /api/products/:id  [AUTH REQUIRED]
 // Soft delete: isActive = false
-// Produk yang sudah ada di pesanan tidak dihapus dari database.
 // ─────────────────────────────────────────────────────────────
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    // 1. Verifikasi autentikasi
     const auth = await requireAuth(request);
     if (!auth.success) return auth.response;
 
     void request;
     const { id } = await params;
 
-    // 2. Cek produk ada
-    const existing = await prisma.product.findUnique({ where: { id } });
-    if (!existing || !existing.isActive) {
+    const existing = await findProduct(id);
+    if (!existing) {
       return notFound("Produk tidak ditemukan");
     }
 
-    // 3. Soft delete: set isActive = false
     await prisma.product.update({
-      where: { id },
+      where: { id: existing.id },
       data: { isActive: false },
     });
 

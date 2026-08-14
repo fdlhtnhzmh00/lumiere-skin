@@ -40,21 +40,21 @@ export default function ProductDetailPage() {
   const [imgErr, setImgErr]     = useState(false);
 
   useEffect(() => {
-    const slug = params.id as string;
-    fetch(`/api/products?search=${slug}&limit=100`)
+    const idOrSlug = params.id as string;
+    setLoading(true);
+
+    // API sekarang menerima id ATAU slug secara transparan
+    fetch(`/api/products/${encodeURIComponent(idOrSlug)}`)
       .then((r) => r.json())
       .then((json) => {
-        const found = (json.data?.products as Product[])?.find((p) => p.slug === slug);
-        if (found) {
-          setProduct(found);
+        if (json.success && json.data?.product) {
+          setProduct(json.data.product);
         } else {
-          // Coba cari berdasarkan ID
-          fetch(`/api/products/${slug}`)
-            .then((r) => r.json())
-            .then((j) => setProduct(j.data?.product ?? null));
+          setProduct(null);
         }
-        setLoading(false);
-      });
+      })
+      .catch(() => setProduct(null))
+      .finally(() => setLoading(false));
   }, [params.id]);
 
   const cartQty = product ? getItemQuantity(product.id) : 0;
