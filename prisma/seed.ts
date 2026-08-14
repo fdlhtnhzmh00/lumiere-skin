@@ -1,12 +1,17 @@
 /**
  * prisma/seed.ts
  * Seed data untuk LUMIÈRE SKIN
- * Berisi: 2 user akun, 10 kategori, 62 produk skincare
+ * Berisi: 2 user akun, 10 kategori, 58 produk skincare
  *
  * Jalankan dengan:
  *   npm run db:seed
  * atau:
  *   npx prisma db seed
+ *
+ * GAMBAR PRODUK:
+ * Setiap produk memiliki URL gambar Unsplash yang UNIK.
+ * Menggunakan 22 foto skincare/beauty + variasi parameter crop imgix
+ * (center, top, entropy, faces, dll.) sehingga setiap produk terlihat berbeda.
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -14,9 +19,44 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-// Helper: generate URL gambar Unsplash
-function img(id: string): string {
-  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=500&h=500&q=80`;
+// ─── 22 foto skincare/beauty dari Unsplash ───────────────────────────────
+const PHOTO = {
+  A: "1556228578-0d85751bab32",    // beberapa botol skincare
+  B: "1556229010-6272de23c10b",    // jar krim putih
+  C: "1527799820374-dcf8d9d4a388", // produk kecantikan flat lay
+  D: "1583209814683-c023dd293cc6", // set produk skincare
+  E: "1616394584738-fc6e612e71b9", // koleksi produk skincare
+  F: "1570172619644-a2b5aecde81a", // botol biru serum
+  G: "1608248543803-ba4f8c70ae0b", // jar putih di atas meja
+  H: "1574182245530-967d9b3831af", // botol kaca tinggi
+  I: "1585751119851-b1ead7e4e9cb", // botol serum kaca bening
+  J: "1598440947619-2c35fc9aa908", // botol dropper serum
+  K: "1606830733744-0ad0b9b3c4f5", // krim pelembap
+  L: "1626716474566-3073c900dd90", // set skincare glow
+  M: "1571781926291-c477ebfd024b", // pink flat lay kecantikan
+  N: "1556760544-74068565f05c",    // krim kecantikan
+  O: "1612817288484-6f916006741a", // tabung sunscreen
+  P: "1590031971-a1e963a8f5b5",    // aplikasi sunscreen
+  Q: "1567721913486-6585f037b77b", // masker wajah
+  R: "1556228720-195026d525f7",    // wajah perempuan
+  S: "1522335789203-aabd1fc54bc9", // area mata
+  T: "1543779871-82d14e37d2ab",    // lip balm
+  U: "1513161455079-7dc1de15ef3e", // tekstur scrub
+  V: "1556228453-6e5a9e0beb3b",    // flat lay skincare
+} as const;
+
+type PhotoKey = keyof typeof PHOTO;
+type CropMode = "center" | "top" | "bottom" | "entropy" | "faces" | "left" | "right";
+
+// Helper: URL gambar unik dengan parameter crop imgix
+// Menerima PhotoKey (huruf A-V) atau Unsplash photo ID langsung
+function img(keyOrId: PhotoKey | string, crop: CropMode = "center"): string {
+  // Jika keyOrId ada di PHOTO (single huruf A-V), resolve ke ID
+  // Jika tidak, gunakan langsung sebagai Unsplash photo ID
+  const photoId = keyOrId in PHOTO
+    ? PHOTO[keyOrId as PhotoKey]
+    : keyOrId;
+  return `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&crop=${crop}&w=500&h=500&q=80`;
 }
 
 async function main() {
@@ -67,61 +107,61 @@ async function main() {
       name: "Pembersih Wajah",
       slug: "pembersih-wajah",
       description: "Produk untuk membersihkan kotoran, minyak, dan sisa makeup dari wajah secara lembut namun efektif",
-      imageUrl: img("1556228578-0d85751bab32"),
+      imageUrl: img("A", "center"),
     },
     {
       name: "Toner & Essence",
       slug: "toner-essence",
       description: "Produk penyeimbang pH kulit dan pemberi hidrasi awal setelah pembersihan wajah",
-      imageUrl: img("1574182245530-967d9b3831af"),
+      imageUrl: img("H", "center"),
     },
     {
       name: "Serum & Ampoule",
       slug: "serum-ampoule",
       description: "Perawatan kulit berkonsentrasi tinggi untuk mengatasi masalah kulit secara lebih efektif dan cepat",
-      imageUrl: img("1598440947619-2c35fc9aa908"),
+      imageUrl: img("J", "center"),
     },
     {
       name: "Pelembap & Krim",
       slug: "pelembap-krim",
       description: "Produk untuk menjaga kelembapan dan melindungi lapisan kulit sepanjang hari",
-      imageUrl: img("1608248543803-ba4f8c70ae0b"),
+      imageUrl: img("G", "center"),
     },
     {
       name: "Tabir Surya",
       slug: "tabir-surya",
       description: "Perlindungan kulit dari paparan sinar UV yang menyebabkan kerusakan dan penuaan dini",
-      imageUrl: img("1590031971-a1e963a8f5b5"),
+      imageUrl: img("P", "center"),
     },
     {
       name: "Masker Wajah",
       slug: "masker-wajah",
       description: "Perawatan intensif mingguan untuk kulit cerah, bersih, dan terhidrasi optimal",
-      imageUrl: img("1571781926291-c477ebfd024b"),
+      imageUrl: img("M", "center"),
     },
     {
       name: "Perawatan Mata",
       slug: "perawatan-mata",
       description: "Produk khusus untuk mengatasi lingkaran gelap, kerutan, dan mata lelah di area sekitar mata",
-      imageUrl: img("1522335789203-aabd1fc54bc9"),
+      imageUrl: img("S", "center"),
     },
     {
       name: "Perawatan Bibir",
       slug: "perawatan-bibir",
       description: "Produk nutrisi, pelembap, dan perlindungan untuk bibir yang sehat dan lembut",
-      imageUrl: img("1543779871-82d14e37d2ab"),
+      imageUrl: img("T", "center"),
     },
     {
       name: "Eksfoliator",
       slug: "eksfoliator",
       description: "Produk pengelupasan sel kulit mati untuk kulit lebih cerah, halus, dan pori-pori bersih",
-      imageUrl: img("1513161455079-7dc1de15ef3e"),
+      imageUrl: img("U", "center"),
     },
     {
       name: "Perawatan Jerawat",
       slug: "perawatan-jerawat",
       description: "Produk khusus untuk kulit bermasalah, rentan jerawat, dan pori-pori tersumbat",
-      imageUrl: img("1556228720-195026d525f7"),
+      imageUrl: img("R", "center"),
     },
   ];
 
@@ -886,6 +926,90 @@ async function main() {
   }
 
   console.log(`✅ ${productCount} produk berhasil dibuat`);
+
+  // ============================================================
+  // UPDATE GAMBAR PRODUK — pastikan setiap produk punya gambar UNIK
+  // Menggunakan kombinasi (photoKey, cropMode) yang berbeda per produk
+  // ============================================================
+  const IMAGE_MAP: Record<string, string> = {
+    // PEMBERSIH WAJAH
+    "glow-gentle-foam-cleanser":            img("A", "center"),
+    "pure-balance-micellar-cleanser":       img("B", "center"),
+    "radiance-rice-powder-cleanser":        img("C", "center"),
+    "lumiere-deep-cleanse-gel":             img("D", "center"),
+    "velvet-cloud-cream-cleanser":          img("E", "center"),
+    "botanical-purifying-foam-wash":        img("F", "center"),
+    // TONER & ESSENCE
+    "hydra-boost-hydrating-toner":          img("H", "center"),
+    "brightening-rose-water-toner":         img("I", "center"),
+    "clear-skin-aha-toner":                 img("J", "center"),
+    "dewdrop-hydrating-essence":            img("K", "center"),
+    "balance-ph-gentle-toner":              img("L", "center"),
+    "fermented-rice-glow-essence":          img("M", "center"),
+    // SERUM & AMPOULE
+    "vitamin-c-brightening-serum":          img("N", "center"),
+    "retinol-renewal-night-serum":          img("I", "top"),
+    "hyaluronic-acid-deep-hydration-serum": img("J", "top"),
+    "niacinamide-10-pore-serum":            img("D", "entropy"),
+    "peptide-firming-ampoule":              img("H", "top"),
+    "glow-essence-brightening-serum":       img("F", "entropy"),
+    "centella-asiatica-calm-serum":         img("V", "center"),
+    // PELEMBAP & KRIM
+    "luminous-day-cream-spf15":             img("G", "center"),
+    "hydra-rich-night-repair-cream":        img("K", "top"),
+    "dewy-glow-gel-moisturizer":            img("A", "entropy"),
+    "barrier-repair-intensive-cream":       img("E", "entropy"),
+    "water-burst-lightweight-moisturizer":  img("L", "top"),
+    "nutri-glow-face-butter":               img("C", "top"),
+    // TABIR SURYA
+    "invisible-shield-sunscreen-spf50-pa":  img("P", "center"),
+    "glow-protect-serum-sunscreen-spf30":   img("O", "center"),
+    "mineral-sun-filter-spf50-plus":        img("P", "top"),
+    "daily-uv-veil-spf50-pa-4":             img("O", "top"),
+    "tinted-skin-protection-spf40":         img("P", "entropy"),
+    "portable-sunscreen-stick-spf50":       img("O", "entropy"),
+    // MASKER WAJAH
+    "radiance-glow-sheet-mask":             img("Q", "center"),
+    "charcoal-purifying-clay-mask":         img("R", "center"),
+    "honey-glow-sleeping-mask":             img("Q", "top"),
+    "aha-brightening-peel-off-mask":        img("M", "top"),
+    "rose-petal-hydrogel-mask":             img("Q", "entropy"),
+    "green-tea-soothing-clay-mask":         img("R", "top"),
+    // PERAWATAN MATA
+    "caffeine-de-puff-eye-serum":           img("S", "center"),
+    "retinol-eye-renewal-cream":            img("N", "top"),
+    "brightening-under-eye-patch":          img("S", "top"),
+    "cooling-eye-gel-treatment":            img("H", "entropy"),
+    "age-defying-eye-complex":              img("S", "entropy"),
+    // PERAWATAN BIBIR
+    "rose-butter-nourishing-lip-mask":      img("T", "center"),
+    "vitamin-e-lip-renewal-serum":          img("T", "top"),
+    "honey-glow-exfoliating-lip-scrub":     img("T", "entropy"),
+    "plumping-hydrating-lip-treatment":     img("B", "top"),
+    "spf15-daily-protect-lip-balm":         img("G", "top"),
+    // EKSFOLIATOR
+    "sugar-glow-face-scrub":                img("U", "center"),
+    "aha-bha-exfoliating-solution":         img("A", "top"),
+    "enzyme-brightening-exfoliating-powder": img("C", "entropy"),
+    "gentle-peeling-gel-exfoliant":         img("U", "top"),
+    "glycolic-acid-glow-tonic":             img("J", "entropy"),
+    // PERAWATAN JERAWAT
+    "salicylic-acid-2-spot-treatment":      img("R", "entropy"),
+    "tea-tree-clear-skin-serum":            img("K", "entropy"),
+    "bha-blemish-control-toner":            img("E", "top"),
+    "acne-healing-invisible-patch":         img("V", "top"),
+    "oil-control-mattifying-gel":           img("L", "entropy"),
+    "pore-minimizing-clear-serum":          img("D", "top"),
+  };
+
+  const allProds = await prisma.product.findMany({ select: { id: true, slug: true } });
+  for (const p of allProds) {
+    const newUrl = IMAGE_MAP[p.slug];
+    if (newUrl) {
+      await prisma.product.update({ where: { id: p.id }, data: { imageUrl: newUrl } });
+    }
+  }
+  console.log(`✅ Gambar unik diterapkan ke ${Object.keys(IMAGE_MAP).length} produk`);
   console.log("");
   console.log("📊 RINGKASAN SEED:");
   console.log(`   Users   : 2 akun`);

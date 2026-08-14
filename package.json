@@ -11,6 +11,7 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
+    "db:update-images": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" prisma/update-images.ts",
     "db:studio": "prisma studio",
     "test": "jest",
     "test:watch": "jest --watch",
