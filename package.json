@@ -13,6 +13,7 @@
     "db:seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
     "db:update-images": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/update-images.ts",
     "test:cart-rules": "ts-node --compiler-options {\"module\":\"CommonJS\"} test-cart-rules.ts",
+    "verify:order-flow": "ts-node --project tsconfig.scripts.json scripts/verify-order-flow.ts",
     "db:studio": "prisma studio",
     "test": "jest",
     "test:watch": "jest --watch",
