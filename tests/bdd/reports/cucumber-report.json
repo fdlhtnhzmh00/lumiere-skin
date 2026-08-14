@@ -1,0 +1,1804 @@
+[
+  {
+    "description": "  Sebagai pengguna yang sudah login di LUMIÈRE SKIN\n  Saya ingin dapat melakukan checkout dan mengelola status pesanan\n  Agar produk skincare yang saya pesan dapat dikirim ke alamat yang benar",
+    "elements": [
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;checkout-berhasil-dengan-semua-data-pengiriman-yang-valid",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "Checkout berhasil dengan semua data pengiriman yang valid",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 932999
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 25,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 186400
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 26,
+            "name": "keranjang belanja saya berisi 2 produk",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:48"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 557999
+            },
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "Nama Penerima",
+                      "Sarah Putri"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Alamat Pengiriman",
+                      "Jl. Sultan Alauddin No. 259, Makassar"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Nomor Telepon",
+                      "081234567890"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 27,
+            "name": "saya mengisi data pengiriman:",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:77"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 292699
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 31,
+            "name": "data checkout berhasil divalidasi",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:137"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 379400
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 32,
+            "name": "pesanan baru akan memiliki status \"DRAFT\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:144"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;checkout-gagal-karena-pengguna-belum-login",
+        "keyword": "Scenario",
+        "line": 35,
+        "name": "Checkout gagal karena pengguna belum login",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 116300
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 36,
+            "name": "saya belum login ke aplikasi",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:44"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 125599
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 37,
+            "name": "keranjang belanja berisi 1 produk",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:59"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 194800
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 38,
+            "name": "saya mencoba melakukan checkout",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:96"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 217399
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 39,
+            "name": "sistem menolak proses checkout",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:160"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 225100
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 40,
+            "name": "sistem meminta saya untuk login terlebih dahulu",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:168"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;checkout-gagal-karena-keranjang-belanja-kosong",
+        "keyword": "Scenario",
+        "line": 43,
+        "name": "Checkout gagal karena keranjang belanja kosong",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 50300
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 44,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 52900
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 45,
+            "name": "keranjang belanja saya kosong",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:55"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 40800
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "saya mencoba melakukan checkout",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:96"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 27500
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "sistem menolak proses checkout",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:160"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 122599
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 48,
+            "name": "sistem menampilkan pesan \"keranjang\" tidak boleh kosong",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:182"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;checkout-gagal-karena-nama-penerima-mengandung-angka",
+        "keyword": "Scenario",
+        "line": 51,
+        "name": "Checkout gagal karena nama penerima mengandung angka",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 123000
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 52,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 47799
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 53,
+            "name": "keranjang belanja saya berisi 1 produk",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:48"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 178300
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 54,
+            "name": "saya mengisi nama penerima \"Sarah123\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:106"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 59900
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 55,
+            "name": "validasi nama penerima gagal",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:196"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 97299
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 56,
+            "name": "pesan error nama mengandung \"angka\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:204"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;validasi-nomor-telepon-dengan-berbagai-panjang-digit",
+        "keyword": "Scenario Outline",
+        "line": 66,
+        "name": "Validasi nomor telepon dengan berbagai panjang digit",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 39999
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 328999
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "saya mengisi nomor telepon \"081234567\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:114"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 107800
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "hasil validasi telepon adalah \"gagal\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:216"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;validasi-nomor-telepon-dengan-berbagai-panjang-digit",
+        "keyword": "Scenario Outline",
+        "line": 67,
+        "name": "Validasi nomor telepon dengan berbagai panjang digit",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 33100
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 106600
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "saya mengisi nomor telepon \"0812345678\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:114"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 41399
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "hasil validasi telepon adalah \"valid\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:216"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;validasi-nomor-telepon-dengan-berbagai-panjang-digit",
+        "keyword": "Scenario Outline",
+        "line": 68,
+        "name": "Validasi nomor telepon dengan berbagai panjang digit",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 26600
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 43799
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "saya mengisi nomor telepon \"081234567890\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:114"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 37000
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "hasil validasi telepon adalah \"valid\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:216"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;validasi-nomor-telepon-dengan-berbagai-panjang-digit",
+        "keyword": "Scenario Outline",
+        "line": 69,
+        "name": "Validasi nomor telepon dengan berbagai panjang digit",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 24599
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 81900
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "saya mengisi nomor telepon \"0812345678901\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:114"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 39600
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "hasil validasi telepon adalah \"valid\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:216"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;validasi-nomor-telepon-dengan-berbagai-panjang-digit",
+        "keyword": "Scenario Outline",
+        "line": 70,
+        "name": "Validasi nomor telepon dengan berbagai panjang digit",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 33699
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 45700
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "saya mengisi nomor telepon \"08123456789012\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:114"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 35600
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "hasil validasi telepon adalah \"gagal\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:216"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;validasi-nomor-telepon-dengan-berbagai-panjang-digit",
+        "keyword": "Scenario Outline",
+        "line": 71,
+        "name": "Validasi nomor telepon dengan berbagai panjang digit",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 52499
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 57099
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "saya mengisi nomor telepon \"+6281234567890\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:114"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 36399
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "hasil validasi telepon adalah \"valid\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:216"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;validasi-nomor-telepon-dengan-berbagai-panjang-digit",
+        "keyword": "Scenario Outline",
+        "line": 72,
+        "name": "Validasi nomor telepon dengan berbagai panjang digit",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 25999
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "saya sudah login sebagai pengguna LUMIÈRE SKIN",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 39499
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "saya mengisi nomor telepon \"021-123456\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:114"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 31500
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "hasil validasi telepon adalah \"gagal\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:216"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;perubahan-status-pesanan-dari-draft-menjadi-confirmed",
+        "keyword": "Scenario",
+        "line": 75,
+        "name": "Perubahan status pesanan dari DRAFT menjadi CONFIRMED",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 80199
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 76,
+            "name": "terdapat pesanan dengan status \"DRAFT\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 123600
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 77,
+            "name": "dilakukan perubahan status pesanan menjadi \"CONFIRMED\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:122"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 78299
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 78,
+            "name": "perubahan status berhasil diterima",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:235"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 65700
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 79,
+            "name": "status pesanan sekarang adalah \"CONFIRMED\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:243"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "proses-checkout-dan-manajemen-status-pesanan;perubahan-status-pesanan-ditolak-dari-completed-ke-cancelled",
+        "keyword": "Scenario",
+        "line": 82,
+        "name": "Perubahan status pesanan ditolak dari COMPLETED ke CANCELLED",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 76599
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 83,
+            "name": "terdapat pesanan dengan status \"COMPLETED\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 39600
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 84,
+            "name": "dilakukan perubahan status pesanan menjadi \"CANCELLED\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:122"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 59999
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 85,
+            "name": "perubahan status ditolak oleh sistem",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:260"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 76199
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 86,
+            "name": "sistem menampilkan pesan bahwa pesanan sudah selesai tidak dapat diubah",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\checkout.steps.ts:268"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "proses-checkout-dan-manajemen-status-pesanan",
+    "line": 18,
+    "keyword": "Feature",
+    "name": "Proses Checkout dan Manajemen Status Pesanan",
+    "tags": [],
+    "uri": "tests\\bdd\\features\\checkout.feature"
+  },
+  {
+    "description": "  Sebagai pengguna toko skincare LUMIÈRE SKIN\n  Saya ingin dapat login ke aplikasi menggunakan email atau username\n  Agar saya bisa mengakses fitur keranjang belanja, checkout, dan riwayat pesanan",
+    "elements": [
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-berhasil-menggunakan-email-yang-terdaftar",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "Login berhasil menggunakan email yang terdaftar",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 61900
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 92200
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 48700
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 158300
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "saya memasukkan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:97"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 148900
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "sistem memvalidasi kredensial dengan sukses",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:166"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 68100
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 31,
+            "name": "status autentikasi berubah menjadi \"terautentikasi\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:177"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-berhasil-menggunakan-username",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "Login berhasil menggunakan username",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 28299
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 48699
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 24199
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 35,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 90299
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 36,
+            "name": "saya memasukkan username \"team1\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:120"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 30700
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 37,
+            "name": "sistem memvalidasi kredensial dengan sukses",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:166"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 37400
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 38,
+            "name": "status autentikasi berubah menjadi \"terautentikasi\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:177"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-gagal-karena-password-tidak-sesuai",
+        "keyword": "Scenario",
+        "line": 41,
+        "name": "Login gagal karena password tidak sesuai",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 25200
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 45599
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 22599
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 42,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 50700
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 43,
+            "name": "saya memasukkan email \"user@lumiereskin.com\" dan password \"passwordsalah\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:97"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 71800
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 44,
+            "name": "sistem menolak login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:196"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 78999
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 45,
+            "name": "pesan error mengandung \"salah\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:204"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-gagal-karena-field-email-kosong",
+        "keyword": "Scenario",
+        "line": 48,
+        "name": "Login gagal karena field email kosong",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 29699
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 45900
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 22699
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 49,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 48099
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 50,
+            "name": "saya memasukkan email \"\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:97"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 57700
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 51,
+            "name": "validasi form gagal",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:213"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 130900
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 52,
+            "name": "pesan validasi mengandung \"wajib\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:226"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-gagal-karena-field-password-kosong",
+        "keyword": "Scenario",
+        "line": 55,
+        "name": "Login gagal karena field password kosong",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 34999
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 47799
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 23699
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 56,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 47099
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 57,
+            "name": "saya memasukkan email \"user@lumiereskin.com\" dan password \"\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:97"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 23799
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 58,
+            "name": "validasi form gagal",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:213"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 40500
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 59,
+            "name": "pesan validasi mengandung \"wajib\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:226"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-dengan-berbagai-kombinasi-kredensial",
+        "keyword": "Scenario Outline",
+        "line": 69,
+        "name": "Login dengan berbagai kombinasi kredensial",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 28699
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 44199
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 23099
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 100500
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "saya memasukkan identifier \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:141"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 110300
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "hasil validasi adalah \"valid\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:234"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-dengan-berbagai-kombinasi-kredensial",
+        "keyword": "Scenario Outline",
+        "line": 70,
+        "name": "Login dengan berbagai kombinasi kredensial",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 26699
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 41099
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 20100
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 43200
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "saya memasukkan identifier \"team1\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:141"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 28800
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "hasil validasi adalah \"valid\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:234"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-dengan-berbagai-kombinasi-kredensial",
+        "keyword": "Scenario Outline",
+        "line": 71,
+        "name": "Login dengan berbagai kombinasi kredensial",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 27700
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 39999
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 20100
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 41600
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "saya memasukkan identifier \"admin@lumiereskin.com\" dan password \"Admin123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:141"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 33500
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "hasil validasi adalah \"valid\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:234"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-dengan-berbagai-kombinasi-kredensial",
+        "keyword": "Scenario Outline",
+        "line": 72,
+        "name": "Login dengan berbagai kombinasi kredensial",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 29199
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 214600
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 92300
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 236699
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "saya memasukkan identifier \"user@lumiereskin.com\" dan password \"salah\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:141"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 97099
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "hasil validasi adalah \"credentials_error\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:234"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-dengan-berbagai-kombinasi-kredensial",
+        "keyword": "Scenario Outline",
+        "line": 73,
+        "name": "Login dengan berbagai kombinasi kredensial",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 55200
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 59500
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 24399
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 65599
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "saya memasukkan identifier \"userTidakAda@email.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:141"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 33199
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "hasil validasi adalah \"credentials_error\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:234"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-dengan-berbagai-kombinasi-kredensial",
+        "keyword": "Scenario Outline",
+        "line": 74,
+        "name": "Login dengan berbagai kombinasi kredensial",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 27800
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 41499
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 20500
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 43200
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "saya memasukkan identifier \"\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:141"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 30999
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "hasil validasi adalah \"validation_error\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:234"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "autentikasi-pengguna-lumière-skin;login-dengan-berbagai-kombinasi-kredensial",
+        "keyword": "Scenario Outline",
+        "line": 75,
+        "name": "Login dengan berbagai kombinasi kredensial",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 24400
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "aplikasi LUMIÈRE SKIN sedang berjalan",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:66"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 38900
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "tersedia akun pengguna dengan email \"user@lumiereskin.com\" dan password \"Lumiere123!\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:71"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 18900
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "saya berada di halaman login",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:85"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 41200
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "saya memasukkan identifier \"user@lumiereskin.com\" dan password \"\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:141"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 32099
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "hasil validasi adalah \"validation_error\"",
+            "match": {
+              "location": "tests\\bdd\\step-definitions\\login.steps.ts:234"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "autentikasi-pengguna-lumière-skin",
+    "line": 17,
+    "keyword": "Feature",
+    "name": "Autentikasi Pengguna LUMIÈRE SKIN",
+    "tags": [],
+    "uri": "tests\\bdd\\features\\login.feature"
+  }
+]

@@ -18,7 +18,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:bdd": "cucumber-js",
+    "test:bdd": "cross-env TS_NODE_PROJECT=tsconfig.bdd.json cucumber-js",
     "test:e2e": "cypress run",
     "test:e2e:open": "cypress open",
     "test:api": "newman run tests/api/lumiere-skin.postman_collection.json --environment tests/api/lumiere-skin.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export tests/api/reports/report.html"
@@ -53,6 +53,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "cypress": "^15.20.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",

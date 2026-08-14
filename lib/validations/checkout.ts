@@ -182,3 +182,30 @@ export function validateIndonesianPhone(phone: unknown): CheckoutFieldResult {
 
   return { valid: true, error: null };
 }
+
+// ─── Validasi Kredensial Login ────────────────────────────────
+
+export interface LoginCredentials {
+  identifier: string;  // email atau username
+  password:   string;
+}
+
+/**
+ * Validasi format kredensial login (client-side format check).
+ * Tidak melakukan autentikasi terhadap database — hanya cek format input.
+ *
+ * Business Rules:
+ * - identifier (email/username) tidak boleh kosong atau hanya whitespace
+ * - password tidak boleh kosong
+ */
+export function validateLoginCredentials(
+  credentials: LoginCredentials
+): CheckoutFieldResult {
+  if (!credentials.identifier || credentials.identifier.trim() === "") {
+    return { valid: false, error: "Email atau username wajib diisi" };
+  }
+  if (!credentials.password || credentials.password === "") {
+    return { valid: false, error: "Password wajib diisi" };
+  }
+  return { valid: true, error: null };
+}
