@@ -40,3 +40,17 @@ export function isPositiveInteger(value: unknown): boolean {
   }
   return false;
 }
+
+// Generate slug URL-friendly dari nama produk
+// Contoh: "Vitamin C Brightening Serum" -> "vitamin-c-brightening-serum"
+export function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")   // hilangkan diakritik
+    .replace(/[^a-z0-9\s-]/g, "")      // hapus karakter non-alfanumerik
+    .replace(/\s+/g, "-")              // ganti spasi dengan strip
+    .replace(/-+/g, "-")               // hilangkan strip berulang
+    .trim()
+    .replace(/^-|-$/g, "");            // hapus strip di awal/akhir
+}

@@ -13,6 +13,22 @@
 
 export type OrderStatus = "DRAFT" | "CONFIRMED" | "COMPLETED" | "CANCELLED";
 
+// Array nilai valid untuk runtime validation
+export const VALID_ORDER_STATUSES: OrderStatus[] = [
+  "DRAFT",
+  "CONFIRMED",
+  "COMPLETED",
+  "CANCELLED",
+];
+
+// Type guard: cek apakah string adalah OrderStatus yang valid
+export function isValidOrderStatus(value: unknown): value is OrderStatus {
+  return (
+    typeof value === "string" &&
+    VALID_ORDER_STATUSES.includes(value as OrderStatus)
+  );
+}
+
 export interface StatusTransitionResult {
   valid: boolean;
   error: string | null;
