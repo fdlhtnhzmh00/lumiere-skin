@@ -2,17 +2,20 @@
 
 /**
  * components/products/CategoryCard.tsx
+ * LUMIÈRE SKIN — Category Card v2.0
+ * Clean image card with name + CTA
  */
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const FALLBACK_GRADIENTS = [
-  "from-rose-100 to-pink-200",
-  "from-amber-100 to-yellow-200",
-  "from-violet-100 to-purple-200",
-  "from-teal-100 to-cyan-200",
-  "from-sky-100 to-blue-200",
+  "from-sage-100 to-sage-200",
+  "from-stone-100 to-stone-200",
+  "from-amber-50 to-amber-100",
+  "from-emerald-50 to-emerald-100",
+  "from-rose-50 to-rose-100",
 ];
 
 interface CategoryCardProps {
@@ -31,25 +34,39 @@ export function CategoryCard({ cat }: CategoryCardProps) {
   return (
     <Link
       href={`/products?category=${cat.slug}`}
-      className="group relative overflow-hidden rounded-2xl aspect-square bg-warm-100 block"
+      className="group block text-center"
     >
-      {cat.imageUrl && !imgErr ? (
-        <Image
-          src={cat.imageUrl}
-          alt={cat.name}
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500 brightness-90 group-hover:brightness-100"
-          onError={() => setImgErr(true)}
-          sizes="(max-width: 640px) 50vw, 20vw"
-        />
-      ) : (
-        <div className={`absolute inset-0 bg-gradient-to-br ${FALLBACK_GRADIENTS[gradIdx]}`} />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-warm-900/70 via-transparent to-transparent" />
-      <div className="absolute bottom-3 left-3 right-3">
-        <p className="text-white text-xs font-semibold line-clamp-1">{cat.name}</p>
-        <p className="text-white/70 text-[10px]">{cat._count.products} produk</p>
+      {/* Image container */}
+      <div className="relative overflow-hidden rounded-2xl aspect-square bg-stone-100 mb-3">
+        {cat.imageUrl && !imgErr ? (
+          <Image
+            src={cat.imageUrl}
+            alt={cat.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={() => setImgErr(true)}
+            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 18vw"
+          />
+        ) : (
+          <div
+            className={`absolute inset-0 bg-gradient-to-br ${FALLBACK_GRADIENTS[gradIdx]} flex items-center justify-center`}
+          >
+            <span className="text-3xl opacity-30">✨</span>
+          </div>
+        )}
+        {/* Subtle overlay on hover */}
+        <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-300 rounded-2xl" />
       </div>
+
+      {/* Category name */}
+      <p className="text-sm font-semibold text-stone-800 group-hover:text-sage-700 transition-colors leading-tight mb-1">
+        {cat.name}
+      </p>
+
+      {/* Shop Now CTA */}
+      <p className="text-xs text-stone-500 group-hover:text-sage-600 transition-colors flex items-center justify-center gap-1">
+        Shop Now <ArrowRight size={10} className="group-hover:translate-x-0.5 transition-transform" />
+      </p>
     </Link>
   );
 }

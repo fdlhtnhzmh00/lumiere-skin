@@ -81,9 +81,9 @@ async function main() {
   const userAccount = await prisma.user.create({
     data: {
       email: "user@lumiereskin.com",
-      username: "sarah_putri",
+      username: "team1",
       password: passwordUser,
-      name: "Sarah Putri",
+      name: "Team 1",
     },
   });
 
@@ -104,64 +104,64 @@ async function main() {
   // ============================================================
   const categoryData = [
     {
-      name: "Pembersih Wajah",
+      name: "Face Cleanser",
       slug: "pembersih-wajah",
-      description: "Produk untuk membersihkan kotoran, minyak, dan sisa makeup dari wajah secara lembut namun efektif",
-      imageUrl: img("A", "center"),
+      description: "Gentle cleansers that remove dirt, oil, and makeup without stripping your skin",
+      imageUrl: "https://i.ibb.co/933zkpBj/71e7bd58-a7f5-401a-9042-e089487c7195.jpg",
     },
     {
       name: "Toner & Essence",
       slug: "toner-essence",
-      description: "Produk penyeimbang pH kulit dan pemberi hidrasi awal setelah pembersihan wajah",
-      imageUrl: img("H", "center"),
+      description: "Balance skin pH and deliver the first layer of hydration after cleansing",
+      imageUrl: "https://i.ibb.co/TMHLBY4M/0af8b1ed-d276-4c32-a787-7f1103dbdd8e.jpg",
     },
     {
       name: "Serum & Ampoule",
       slug: "serum-ampoule",
-      description: "Perawatan kulit berkonsentrasi tinggi untuk mengatasi masalah kulit secara lebih efektif dan cepat",
-      imageUrl: img("J", "center"),
+      description: "Concentrated treatments to target specific skin concerns effectively",
+      imageUrl: "https://i.ibb.co/DDVWzKW7/c8919eaa-3950-4af3-9dde-d9c1d2a2dfdf.jpg",
     },
     {
-      name: "Pelembap & Krim",
+      name: "Moisturizer & Cream",
       slug: "pelembap-krim",
-      description: "Produk untuk menjaga kelembapan dan melindungi lapisan kulit sepanjang hari",
-      imageUrl: img("G", "center"),
+      description: "Lock in moisture and protect the skin barrier throughout the day",
+      imageUrl: "https://i.ibb.co/YB7WSCpT/ff6982f6-1586-47b3-b32c-64eb2b39c75d.jpg",
     },
     {
-      name: "Tabir Surya",
+      name: "Sunscreen",
       slug: "tabir-surya",
-      description: "Perlindungan kulit dari paparan sinar UV yang menyebabkan kerusakan dan penuaan dini",
-      imageUrl: img("P", "center"),
+      description: "Protect skin from UV damage that causes premature aging and dark spots",
+      imageUrl: "https://i.ibb.co/kgSfF6Ky/7a4212bd-42c1-4dbe-bf01-790519f0be6a.jpg",
     },
     {
-      name: "Masker Wajah",
+      name: "Face Mask",
       slug: "masker-wajah",
-      description: "Perawatan intensif mingguan untuk kulit cerah, bersih, dan terhidrasi optimal",
-      imageUrl: img("M", "center"),
+      description: "Weekly intensive treatments for brighter, cleaner, deeply hydrated skin",
+      imageUrl: "https://i.ibb.co/N2fsmW0s/ca49f977-8b1c-46ad-ac80-e898acd28c14.jpg",
     },
     {
-      name: "Perawatan Mata",
+      name: "Eye Care",
       slug: "perawatan-mata",
-      description: "Produk khusus untuk mengatasi lingkaran gelap, kerutan, dan mata lelah di area sekitar mata",
-      imageUrl: img("S", "center"),
+      description: "Targeted products for dark circles, puffiness, and fine lines around the eye area",
+      imageUrl: "https://i.ibb.co/DHRSJqwp/51944212-ffbb-4390-b551-60110284247f.jpg",
     },
     {
-      name: "Perawatan Bibir",
+      name: "Lip Care",
       slug: "perawatan-bibir",
-      description: "Produk nutrisi, pelembap, dan perlindungan untuk bibir yang sehat dan lembut",
-      imageUrl: img("T", "center"),
+      description: "Nourish, hydrate, and protect your lips for a healthy, soft pout",
+      imageUrl: "https://i.ibb.co/svb8cfSB/d4615368-3eeb-46ae-a88c-8e3ddcc46d96.jpg",
     },
     {
-      name: "Eksfoliator",
+      name: "Exfoliator",
       slug: "eksfoliator",
-      description: "Produk pengelupasan sel kulit mati untuk kulit lebih cerah, halus, dan pori-pori bersih",
-      imageUrl: img("U", "center"),
+      description: "Remove dead skin cells for a brighter, smoother, and cleaner complexion",
+      imageUrl: "https://i.ibb.co/JjHpj9bH/25a7f0c3-6c1a-4adc-97b7-3d3ea1090ff3.jpg",
     },
     {
-      name: "Perawatan Jerawat",
+      name: "Acne Care",
       slug: "perawatan-jerawat",
-      description: "Produk khusus untuk kulit bermasalah, rentan jerawat, dan pori-pori tersumbat",
-      imageUrl: img("R", "center"),
+      description: "Specialized products for acne-prone, oily, and blemish-prone skin types",
+      imageUrl: "https://i.ibb.co/LhC2cQGC/f30b9f74-8eb7-4c17-a233-1c62fbe271af.jpg",
     },
   ];
 
@@ -1075,7 +1075,7 @@ async function main() {
   console.log(`   Produk  : ${productCount} produk`);
   console.log("");
   console.log("🔐 Akun test:");
-  console.log("   User  : user@lumiereskin.com / Lumiere123!");
+  console.log("   User  : user@lumiereskin.com (Team 1) / Lumiere123!");
   console.log("   Admin : admin@lumiereskin.com / Admin123!");
   console.log("");
   console.log("🌱 Seeding selesai!");

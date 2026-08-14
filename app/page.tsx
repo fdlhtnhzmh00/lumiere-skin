@@ -1,46 +1,55 @@
 /**
- * app/page.tsx — Homepage LUMIÈRE SKIN
- * Server Component: data produk dan kategori di-fetch langsung via Prisma.
+ * app/page.tsx — LUMIÈRE SKIN Homepage v2.0
+ * Inspired by clean natural luxury skincare aesthetics
+ * Server Component — Prisma data fetching
  */
 
-import React from "react";
+import React, { Suspense } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Leaf, Shield, Truck, Star } from "lucide-react";
+import {
+  ArrowRight,
+  Leaf,
+  Eye,
+  Shield,
+  Package,
+  RotateCcw,
+  Lock,
+} from "lucide-react";
 import { prisma } from "@/lib/db";
 import { ProductCard } from "@/components/products/ProductCard";
 import { CategoryCard } from "@/components/products/CategoryCard";
+
+// ─── Hero image ─────────────────────────────────────────────
+const HERO_IMAGE =
+  "https://i.ibb.co/pjMQJZyJ/7c0db6c9-de9d-46d6-8f8e-29cea104f975.jpg";
 
 // ─── Data fetching ────────────────────────────────────────────
 async function getHomeData() {
   const [categories, featuredProducts] = await Promise.all([
     prisma.category.findMany({
-      include: { _count: { select: { products: { where: { isActive: true } } } } },
+      include: {
+        _count: { select: { products: { where: { isActive: true } } } },
+      },
       orderBy: { name: "asc" },
     }),
     prisma.product.findMany({
-      where: { isActive: true },
+      where:   { isActive: true },
       include: { category: { select: { name: true, slug: true } } },
       orderBy: { createdAt: "desc" },
-      take: 8,
+      take:    8,
     }),
   ]);
   return { categories, featuredProducts };
 }
 
-function BenefitCard({ icon: Icon, title, desc }: { icon: React.ElementType; title: string; desc: string }) {
-  return (
-    <div className="flex flex-col items-center text-center gap-3 p-6">
-      <div className="w-12 h-12 rounded-2xl bg-brand-100 flex items-center justify-center">
-        <Icon size={22} className="text-brand-600" />
-      </div>
-      <div>
-        <p className="font-semibold text-sm text-warm-900">{title}</p>
-        <p className="text-xs text-warm-500 mt-0.5">{desc}</p>
-      </div>
-    </div>
-  );
-}
-
+// ─── Hero Trust Icons ─────────────────────────────────────────
+const HERO_FEATURES = [
+  { icon: Leaf,   label: "Clean",       sub: "Ingredients" },
+  { icon: Eye,    label: "Visible",     sub: "Results" },
+  { icon: Shield, label: "Safe for",    sub: "Sensitive Skin" },
+  { icon: Leaf,   label: "Natural",     sub: "Packaging" },
+];
 
 // ─── Page ─────────────────────────────────────────────────────
 export default async function HomePage() {
@@ -49,94 +58,122 @@ export default async function HomePage() {
   return (
     <div className="overflow-x-hidden">
 
-      {/* ══ HERO ══════════════════════════════════════════════ */}
-      <section className="relative min-h-[88vh] flex items-center bg-gradient-to-br from-warm-50 via-brand-50/30 to-rose-50/50 overflow-hidden">
-        {/* Decorative circles */}
-        <div className="absolute top-16 right-0 w-96 h-96 rounded-full bg-brand-100/40 blur-3xl -translate-y-1/4 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-rose-100/40 blur-3xl translate-y-1/4 -translate-x-1/4" />
-        <div className="absolute top-1/2 right-1/4 w-48 h-48 rounded-full bg-gold-300/30 blur-2xl" />
+      {/* ══ HERO ══════════════════════════════════════════════════ */}
+      <section className="bg-stone-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-0 min-h-[82vh] items-center">
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-24 lg:py-0">
-          <div className="max-w-2xl animate-fade-in">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-brand-100/80 text-brand-700 text-xs font-medium px-3 py-1.5 rounded-full mb-6 border border-brand-200/50">
-              <Star size={11} className="fill-brand-500 text-brand-500" />
-              Premium Skincare Collection 2026
+            {/* Left: Text content */}
+            <div className="py-16 lg:py-24 lg:pr-12 order-2 lg:order-1">
+              <p className="label-overline mb-4 text-sage-600">
+                Natural Skincare Collection 2026
+              </p>
+
+              <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl text-stone-900 mb-6 leading-tight">
+                Good for{" "}
+                <span className="italic text-sage-700">your skin.</span>
+                <br />
+                Better for{" "}
+                <span className="italic text-sage-700">you.</span>
+              </h1>
+
+              <p className="text-base text-stone-500 mb-8 max-w-md leading-relaxed">
+                <em className="font-medium text-stone-700 not-italic">
+                  Illuminate Your Natural Beauty
+                </em>{" "}
+                — high performance skincare with clean, powerful ingredients
+                that truly care for you.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-3 mb-12">
+                <Link href="/products" className="btn-primary">
+                  Shop Now
+                </Link>
+                <Link
+                  href="/products?category=serum-ampoule"
+                  className="btn-outline"
+                >
+                  Explore Ingredients <ArrowRight size={15} />
+                </Link>
+              </div>
+
+              {/* Trust icons */}
+              <div className="grid grid-cols-4 gap-4">
+                {HERO_FEATURES.map(({ icon: Icon, label, sub }) => (
+                  <div key={label} className="flex flex-col items-center gap-1.5 text-center">
+                    <div className="w-10 h-10 rounded-full bg-sage-50 border border-sage-100 flex items-center justify-center">
+                      <Icon size={17} className="text-sage-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-stone-800 leading-tight">{label}</p>
+                      <p className="text-[10px] text-stone-400 leading-tight">{sub}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Heading */}
-            <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight text-warm-900 mb-5">
-              Illuminate<br />
-              <span className="text-brand-500">Your Natural</span><br />
-              Beauty
-            </h1>
+            {/* Right: Hero image */}
+            <div className="relative order-1 lg:order-2 h-64 lg:h-full min-h-[320px] lg:min-h-[82vh] bg-stone-100">
+              <Image
+                src={HERO_IMAGE}
+                alt="LUMIÈRE SKIN — Natural Skincare"
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              {/* Subtle gradient overlay for text readability on mobile */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 via-transparent to-transparent lg:hidden" />
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Tagline */}
-            <p className="text-lg text-warm-600 leading-relaxed mb-8 max-w-lg">
-              Temukan rutinitas skincare sempurna Anda dengan koleksi produk
-              perawatan kulit premium yang telah teruji secara dermatologis.
-            </p>
+      {/* ══ TRUST / SHIPPING STRIP ════════════════════════════════ */}
+      <section className="bg-sage-800 text-white py-5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {[
+              { icon: Package,    title: "Free Shipping",    sub: "On all orders over Rp200K" },
+              { icon: RotateCcw, title: "30-Day Returns",   sub: "Love it or return it" },
+              { icon: Lock,       title: "Secure Checkout",  sub: "100% protected payments" },
+            ].map(({ icon: Icon, title, sub }) => (
+              <div key={title} className="flex items-center gap-4 justify-center sm:justify-start">
+                <Icon size={26} className="text-sage-300 shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-white">{title}</p>
+                  <p className="text-xs text-sage-300">{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-3">
+      {/* ══ SHOP BY CATEGORY ══════════════════════════════════════ */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Section header */}
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+            <div>
+              <h2 className="section-title">Shop by Category</h2>
+              <p className="section-subtitle max-w-xs">
+                Everything you need for your best skin days.
+              </p>
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 bg-brand-500 text-white px-6 py-3 rounded-xl font-medium text-sm hover:bg-brand-600 transition-colors shadow-md shadow-brand-200"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-sage-600 hover:text-sage-800 mt-3 transition-colors"
               >
-                Belanja Sekarang
-                <ArrowRight size={16} />
-              </Link>
-              <Link
-                href="/products?category=serum-ampoule"
-                className="inline-flex items-center gap-2 bg-white text-warm-800 px-6 py-3 rounded-xl font-medium text-sm border border-warm-300 hover:border-brand-300 hover:text-brand-600 transition-colors"
-              >
-                Lihat Serum
+                View All Products <ArrowRight size={14} />
               </Link>
             </div>
-
-            {/* Stats */}
-            <div className="flex gap-8 mt-12 pt-8 border-t border-warm-200/60">
-              {[
-                { value: "58+", label: "Produk" },
-                { value: "10", label: "Kategori" },
-                { value: "100%", label: "Cruelty Free" },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="font-heading text-2xl font-semibold text-warm-900">{s.value}</p>
-                  <p className="text-xs text-warm-500">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══ BENEFITS ══════════════════════════════════════════ */}
-      <section className="bg-white border-y border-warm-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-warm-200">
-            <BenefitCard icon={Leaf}   title="Bahan Alami"          desc="Formula bebas bahan berbahaya" />
-            <BenefitCard icon={Shield} title="Teruji Dermatologis"  desc="Aman untuk semua jenis kulit" />
-            <BenefitCard icon={Truck}  title="Pengiriman Cepat"     desc="Dikirim ke seluruh Indonesia" />
-            <BenefitCard icon={Star}   title="Kualitas Premium"     desc="Dipilih oleh ahli kecantikan" />
-          </div>
-        </div>
-      </section>
-
-      {/* ══ CATEGORIES ════════════════════════════════════════ */}
-      <section className="py-20 bg-warm-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-brand-500 mb-2">Koleksi Kami</p>
-              <h2 className="font-heading text-3xl font-semibold text-warm-900">Kategori Produk</h2>
-            </div>
-            <Link href="/products" className="hidden sm:flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700">
-              Lihat Semua <ArrowRight size={14} />
-            </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {/* Category grid — 5 per row desktop, 2 on mobile */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
             {categories.map((cat) => (
               <CategoryCard key={cat.id} cat={cat} />
             ))}
@@ -144,75 +181,80 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ══ FEATURED PRODUCTS ══════════════════════════════════ */}
+      {/* ══ BEST SELLERS ══════════════════════════════════════════ */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Section header */}
           <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-brand-500 mb-2">Pilihan Terbaik</p>
-              <h2 className="font-heading text-3xl font-semibold text-warm-900">Produk Unggulan</h2>
+              <p className="label-overline text-sage-600 mb-2">Our Favourites</p>
+              <h2 className="section-title">Best Sellers</h2>
             </div>
-            <Link href="/products" className="hidden sm:flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700">
-              Semua Produk <ArrowRight size={14} />
+            <Link
+              href="/products"
+              className="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-sage-600 hover:text-sage-800 transition-colors"
+            >
+              View All <ArrowRight size={14} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {/* Product grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <Suspense key={product.id} fallback={<div className="skeleton aspect-square rounded-2xl" />}>
+                <ProductCard product={product} />
+              </Suspense>
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 bg-warm-900 text-white px-8 py-3 rounded-xl text-sm font-medium hover:bg-warm-800 transition-colors"
-            >
-              Lihat Semua Produk
-              <ArrowRight size={15} />
+          {/* Mobile "view all" */}
+          <div className="text-center mt-8 sm:hidden">
+            <Link href="/products" className="btn-primary inline-flex gap-2">
+              View All Products <ArrowRight size={15} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ══ BRAND STORY ════════════════════════════════════════ */}
-      <section className="py-20 bg-gradient-to-r from-brand-50 to-rose-50/50">
+      {/* ══ BRAND STORY ═══════════════════════════════════════════ */}
+      <section className="py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-5">
-            <p className="text-xs font-semibold uppercase tracking-widest text-brand-500">Tentang Kami</p>
-            <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-warm-900">
-              Kecantikan Dimulai dari Perawatan yang Tepat
+          <div className="max-w-2xl mx-auto text-center space-y-5">
+            <p className="label-overline text-sage-600">Our Philosophy</p>
+            <h2 className="section-title">
+              Beauty Starts with the Right Care
             </h2>
-            <p className="text-warm-600 leading-relaxed">
-              LUMIÈRE SKIN hadir dengan keyakinan bahwa setiap orang berhak mendapatkan
-              produk skincare berkualitas tinggi. Kami menghadirkan koleksi produk yang
-              diformulasikan dengan bahan-bahan terbaik, ramah kulit, dan telah teruji
-              secara ilmiah untuk membantu Anda meraih kulit yang sehat dan bercahaya.
+            <p className="text-stone-500 leading-relaxed">
+              LUMIÈRE SKIN was founded on the belief that everyone deserves
+              access to effective, clean skincare. We formulate every product
+              with carefully selected ingredients, dermatologist-tested and
+              gentle for all skin types, to help you achieve healthy,
+              luminous skin naturally.
             </p>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 text-brand-600 font-medium text-sm hover:text-brand-700 border-b border-brand-300 pb-0.5"
+              className="inline-flex items-center gap-2 text-sage-700 font-semibold text-sm hover:text-sage-900 border-b border-sage-400 pb-0.5 transition-colors"
             >
-              Mulai Perjalanan Skincare Anda <ArrowRight size={14} />
+              Start Your Skincare Journey <ArrowRight size={14} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ══ CTA BANNER ═════════════════════════════════════════ */}
-      <section className="py-16 bg-warm-900">
+      {/* ══ CTA BANNER ════════════════════════════════════════════ */}
+      <section className="bg-sage-800 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-3xl font-semibold text-white mb-3">
-            Siap Memulai Rutinitas Skincare Anda?
+          <p className="label-overline text-sage-300 mb-3">Limited Time</p>
+          <h2 className="font-heading text-3xl sm:text-4xl text-white mb-3">
+            Ready to illuminate your skin?
           </h2>
-          <p className="text-warm-400 mb-7 text-sm">
-            Jelajahi ratusan produk skincare premium pilihan para ahli kecantikan.
+          <p className="text-sage-300 text-sm mb-8 max-w-md mx-auto">
+            Explore our full collection of premium skincare products
+            curated for your natural beauty.
           </p>
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-2 bg-brand-500 text-white px-7 py-3.5 rounded-xl font-medium text-sm hover:bg-brand-400 transition-colors"
-          >
-            Belanja Sekarang <ArrowRight size={15} />
+          <Link href="/products" className="btn-primary inline-flex gap-2">
+            Shop the Collection <ArrowRight size={15} />
           </Link>
         </div>
       </section>

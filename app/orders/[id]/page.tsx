@@ -43,8 +43,8 @@ const STATUS_CONFIG = {
   DRAFT: {
     label:     "Menunggu Konfirmasi",
     variant:   "default" as const,
-    color:     "text-warm-600",
-    bg:        "bg-warm-100",
+    color:     "text-stone-600",
+    bg:        "bg-stone-100",
     icon:      RefreshCw,
     nextLabel: "Konfirmasi Pesanan",
     nextStatus: "CONFIRMED" as const,
@@ -196,8 +196,8 @@ function OrderDetailContent() {
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
         <p className="text-5xl mb-4">😕</p>
         <p className="font-semibold text-warm-800 mb-2">Pesanan tidak ditemukan</p>
-        <p className="text-sm text-warm-500 mb-6">{error}</p>
-        <Link href="/orders" className="text-sm text-brand-600 hover:underline">
+        <p className="text-sm text-stone-500 mb-6">{error}</p>
+        <Link href="/orders" className="text-sm text-sage-600 hover:underline">
           ← Kembali ke Daftar Pesanan
         </Link>
       </div>
@@ -213,26 +213,26 @@ function OrderDetailContent() {
   return (
     <div
       data-testid="order-detail"
-      className="min-h-screen bg-warm-50"
+      className="min-h-screen bg-stone-50"
     >
       {/* Header */}
-      <div className="bg-white border-b border-warm-200">
+      <div className="bg-white border-b border-stone-200">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex items-center gap-3">
             <Link
               href="/orders"
-              className="p-1.5 rounded-lg hover:bg-warm-100 transition-colors shrink-0"
+              className="p-1.5 rounded-lg hover:bg-stone-100 transition-colors shrink-0"
             >
-              <ArrowLeft size={18} className="text-warm-600" />
+              <ArrowLeft size={18} className="text-stone-600" />
             </Link>
             <div className="flex-1 min-w-0">
               <h1
                 data-testid="order-number"
-                className="font-heading text-xl font-semibold text-warm-900 truncate"
+                className="font-heading text-xl font-semibold text-stone-900 truncate"
               >
                 {order.orderNumber}
               </h1>
-              <p className="text-xs text-warm-500">
+              <p className="text-xs text-stone-500">
                 {new Date(order.createdAt).toLocaleDateString("id-ID", {
                   day:    "numeric",
                   month:  "long",
@@ -290,7 +290,7 @@ function OrderDetailContent() {
             <p className={`font-semibold text-sm ${cfg.color}`}>
               Status: {cfg.label}
             </p>
-            <p className="text-xs text-warm-500 mt-0.5">
+            <p className="text-xs text-stone-500 mt-0.5">
               Diperbarui: {new Date(order.updatedAt).toLocaleDateString("id-ID", {
                 day: "numeric", month: "short", year: "numeric",
                 hour: "2-digit", minute: "2-digit",
@@ -300,9 +300,9 @@ function OrderDetailContent() {
         </div>
 
         {/* ── Produk yang Dipesan ────────────────────────────── */}
-        <div className="bg-white rounded-2xl border border-warm-200 p-5">
-          <h2 className="font-semibold text-warm-900 mb-4 flex items-center gap-2">
-            <Package size={15} className="text-brand-500" />
+        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          <h2 className="font-semibold text-stone-900 mb-4 flex items-center gap-2">
+            <Package size={15} className="text-sage-600" />
             Produk Dipesan ({order.items.length} item)
           </h2>
 
@@ -314,7 +314,7 @@ function OrderDetailContent() {
                 className="flex items-center gap-3"
               >
                 {/* Gambar */}
-                <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-warm-100 shrink-0">
+                <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-stone-100 shrink-0">
                   {!imgErrors[item.product.id] ? (
                     <Image
                       src={item.product.imageUrl}
@@ -337,17 +337,17 @@ function OrderDetailContent() {
                 <div className="flex-1 min-w-0">
                   <Link
                     href={`/products/${item.product.slug}`}
-                    className="text-sm font-medium text-warm-900 hover:text-brand-600 line-clamp-1"
+                    className="text-sm font-medium text-stone-900 hover:text-sage-600 line-clamp-1"
                   >
                     {item.product.name}
                   </Link>
-                  <p className="text-xs text-warm-500">
+                  <p className="text-xs text-stone-500">
                     {item.quantity} unit × {formatCurrency(item.unitPrice)}
                   </p>
                 </div>
 
                 {/* Subtotal */}
-                <p className="text-sm font-semibold text-warm-900 shrink-0">
+                <p className="text-sm font-semibold text-stone-900 shrink-0">
                   {formatCurrency(item.subtotal)}
                 </p>
               </div>
@@ -355,11 +355,11 @@ function OrderDetailContent() {
           </div>
 
           {/* Total */}
-          <div className="border-t border-warm-200 mt-4 pt-4 flex justify-between font-semibold">
-            <span className="text-warm-900">Total Pesanan</span>
+          <div className="border-t border-stone-200 mt-4 pt-4 flex justify-between font-semibold">
+            <span className="text-stone-900">Total Pesanan</span>
             <span
               data-testid="order-total-price"
-              className="text-brand-600"
+              className="text-sage-600"
             >
               {formatCurrency(order.totalPrice)}
             </span>
@@ -367,27 +367,27 @@ function OrderDetailContent() {
         </div>
 
         {/* ── Informasi Pengiriman ───────────────────────────── */}
-        <div className="bg-white rounded-2xl border border-warm-200 p-5">
-          <h2 className="font-semibold text-warm-900 mb-4 flex items-center gap-2">
-            <MapPin size={15} className="text-brand-500" />
+        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          <h2 className="font-semibold text-stone-900 mb-4 flex items-center gap-2">
+            <MapPin size={15} className="text-sage-600" />
             Informasi Pengiriman
           </h2>
           <div className="space-y-2.5 text-sm">
-            <div className="flex items-start gap-2.5 text-warm-700">
-              <User size={14} className="shrink-0 mt-0.5 text-brand-400" />
+            <div className="flex items-start gap-2.5 text-stone-700">
+              <User size={14} className="shrink-0 mt-0.5 text-sage-500" />
               <span data-testid="order-recipient">{order.recipientName}</span>
             </div>
-            <div className="flex items-start gap-2.5 text-warm-700">
-              <MapPin size={14} className="shrink-0 mt-0.5 text-brand-400" />
+            <div className="flex items-start gap-2.5 text-stone-700">
+              <MapPin size={14} className="shrink-0 mt-0.5 text-sage-500" />
               <span>{order.shippingAddress}</span>
             </div>
-            <div className="flex items-center gap-2.5 text-warm-700">
-              <Phone size={14} className="shrink-0 text-brand-400" />
+            <div className="flex items-center gap-2.5 text-stone-700">
+              <Phone size={14} className="shrink-0 text-sage-500" />
               <span>{order.phoneNumber}</span>
             </div>
             {order.notes && (
-              <div className="flex items-start gap-2.5 text-warm-500">
-                <StickyNote size={14} className="shrink-0 mt-0.5 text-brand-400" />
+              <div className="flex items-start gap-2.5 text-stone-500">
+                <StickyNote size={14} className="shrink-0 mt-0.5 text-sage-500" />
                 <span className="italic text-xs">Catatan: {order.notes}</span>
               </div>
             )}
@@ -396,12 +396,12 @@ function OrderDetailContent() {
 
         {/* ── Tombol Aksi Status ─────────────────────────────── */}
         {(cfg.nextStatus || canCancel) && (
-          <div className="bg-white rounded-2xl border border-warm-200 p-5">
-            <h2 className="font-semibold text-warm-900 mb-3 flex items-center gap-2">
-              <RefreshCw size={15} className="text-brand-500" />
+          <div className="bg-white rounded-2xl border border-stone-200 p-5">
+            <h2 className="font-semibold text-stone-900 mb-3 flex items-center gap-2">
+              <RefreshCw size={15} className="text-sage-600" />
               Ubah Status Pesanan
             </h2>
-            <p className="text-xs text-warm-500 mb-4">
+            <p className="text-xs text-stone-500 mb-4">
               Perubahan status mengikuti aturan transisi yang berlaku
               (BR-15 s/d BR-20).
             </p>
@@ -438,8 +438,8 @@ function OrderDetailContent() {
 
             {/* Info status final */}
             {!cfg.nextStatus && !canCancel && (
-              <div className="flex items-center gap-2 text-xs text-warm-500">
-                <AlertCircle size={13} className="text-warm-400" />
+              <div className="flex items-center gap-2 text-xs text-stone-500">
+                <AlertCircle size={13} className="text-stone-400" />
                 Status pesanan ini sudah final dan tidak dapat diubah.
               </div>
             )}
@@ -450,13 +450,13 @@ function OrderDetailContent() {
         <div className="flex items-center justify-between pt-2">
           <Link
             href="/orders"
-            className="text-sm text-warm-500 hover:text-brand-600 transition-colors"
+            className="text-sm text-stone-500 hover:text-sage-600 transition-colors"
           >
             ← Semua Pesanan
           </Link>
           <Link
             href="/products"
-            className="text-sm text-brand-600 hover:underline"
+            className="text-sm text-sage-600 hover:underline"
           >
             Belanja lagi →
           </Link>

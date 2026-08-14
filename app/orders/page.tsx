@@ -19,12 +19,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-// ─── Konfigurasi label dan warna status ───────────────────────
+// â”€â”€â”€ Konfigurasi label dan warna status â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const STATUS_CONFIG = {
-  DRAFT:     { label: "Menunggu",       variant: "default"  as const, emoji: "🕐" },
-  CONFIRMED: { label: "Dikonfirmasi",   variant: "gold"     as const, emoji: "✅" },
-  COMPLETED: { label: "Selesai",        variant: "success"  as const, emoji: "🎉" },
-  CANCELLED: { label: "Dibatalkan",     variant: "danger"   as const, emoji: "❌" },
+  DRAFT:     { label: "Menunggu",       variant: "default"  as const, emoji: "ðŸ•" },
+  CONFIRMED: { label: "Dikonfirmasi",   variant: "gold"     as const, emoji: "âœ…" },
+  COMPLETED: { label: "Selesai",        variant: "success"  as const, emoji: "ðŸŽ‰" },
+  CANCELLED: { label: "Dibatalkan",     variant: "danger"   as const, emoji: "âŒ" },
 };
 
 interface Order {
@@ -70,7 +70,7 @@ export default function OrdersPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isLoading, token]);
 
-  // ── Loading skeleton ─────────────────────────────────────────
+  // â”€â”€ Loading skeleton â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   if (isLoading || pageLoading) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 space-y-3">
@@ -84,24 +84,24 @@ export default function OrdersPage() {
   return (
     <div
       data-testid="orders-page"
-      className="min-h-screen bg-warm-50"
+      className="min-h-screen bg-stone-50"
     >
       {/* Header */}
-      <div className="bg-white border-b border-warm-200">
+      <div className="bg-white border-b border-stone-200">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="font-heading text-2xl font-semibold text-warm-900">
+              <h1 className="font-heading text-2xl font-semibold text-stone-900">
                 Pesanan Saya
               </h1>
-              <p className="text-sm text-warm-500 mt-1">
+              <p className="text-sm text-stone-500 mt-1">
                 {orders.length} pesanan
               </p>
             </div>
             <button
               onClick={() => fetchOrders(true)}
               disabled={refreshing}
-              className="flex items-center gap-1.5 text-xs text-warm-500 hover:text-brand-600 transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 text-xs text-stone-500 hover:text-sage-600 transition-colors disabled:opacity-50"
             >
               <RefreshCw
                 size={13}
@@ -115,19 +115,19 @@ export default function OrdersPage() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        {/* ── Kosong ─────────────────────────────────────────── */}
+        {/* â”€â”€ Kosong â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {orders.length === 0 ? (
           <div
             data-testid="orders-empty"
             className="text-center py-16"
           >
             <div className="w-20 h-20 rounded-full bg-brand-100 flex items-center justify-center mx-auto mb-4">
-              <PackageSearch size={32} className="text-brand-400" />
+              <PackageSearch size={32} className="text-sage-500" />
             </div>
             <p className="font-heading text-lg font-semibold text-warm-800 mb-1">
               Belum ada pesanan
             </p>
-            <p className="text-sm text-warm-500 mb-6">
+            <p className="text-sm text-stone-500 mb-6">
               Mulai belanja dan buat pesanan pertama Anda
             </p>
             <Link href="/products">
@@ -135,7 +135,7 @@ export default function OrdersPage() {
             </Link>
           </div>
         ) : (
-          /* ── Daftar Pesanan ─────────────────────────────── */
+          /* â”€â”€ Daftar Pesanan â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
           <div className="space-y-3">
             {orders.map((order) => {
               const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.DRAFT;
@@ -149,7 +149,7 @@ export default function OrdersPage() {
                   href={`/orders/${order.id}`}
                   data-testid="order-item"
                   data-order-id={order.id}
-                  className="bg-white rounded-2xl border border-warm-200 p-5 flex items-center justify-between hover:border-brand-300 hover:shadow-sm transition-all group block"
+                  className="bg-white rounded-2xl border border-stone-200 p-5 flex items-center justify-between hover:border-sage-300 hover:shadow-sm transition-all group block"
                 >
                   <div className="space-y-1.5 min-w-0 flex-1">
                     {/* Nomor + Status */}
@@ -157,7 +157,7 @@ export default function OrdersPage() {
                       <span className="text-sm">{cfg.emoji}</span>
                       <p
                         data-testid="order-number"
-                        className="font-semibold text-sm text-warm-900"
+                        className="font-semibold text-sm text-stone-900"
                       >
                         {order.orderNumber}
                       </p>
@@ -167,7 +167,7 @@ export default function OrdersPage() {
                     </div>
 
                     {/* Tanggal */}
-                    <p className="text-xs text-warm-500">
+                    <p className="text-xs text-stone-500">
                       {new Date(order.createdAt).toLocaleDateString("id-ID", {
                         day:   "numeric",
                         month: "long",
@@ -178,7 +178,7 @@ export default function OrdersPage() {
                     </p>
 
                     {/* Nama produk */}
-                    <p className="text-xs text-warm-400 line-clamp-1 max-w-[280px]">
+                    <p className="text-xs text-stone-400 line-clamp-1 max-w-[280px]">
                       {productNames}
                     </p>
                   </div>
@@ -187,13 +187,13 @@ export default function OrdersPage() {
                   <div className="flex items-center gap-3 shrink-0 ml-3">
                     <p
                       data-testid="order-total"
-                      className="font-semibold text-sm text-warm-900"
+                      className="font-semibold text-sm text-stone-900"
                     >
                       {formatCurrency(order.totalPrice)}
                     </p>
                     <ChevronRight
                       size={16}
-                      className="text-warm-400 group-hover:text-brand-500 transition-colors"
+                      className="text-stone-400 group-hover:text-sage-600 transition-colors"
                     />
                   </div>
                 </Link>
@@ -207,7 +207,7 @@ export default function OrdersPage() {
           <div className="mt-6 text-center">
             <Link
               href="/products"
-              className="text-sm text-brand-600 hover:underline"
+              className="text-sm text-sage-600 hover:underline"
             >
               + Buat pesanan baru
             </Link>
@@ -217,3 +217,4 @@ export default function OrdersPage() {
     </div>
   );
 }
+

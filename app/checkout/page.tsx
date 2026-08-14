@@ -2,7 +2,7 @@
 
 /**
  * app/checkout/page.tsx
- * Halaman Checkout LUMIÈRE SKIN
+ * Halaman Checkout LUMIÃˆRE SKIN
  *
  * Business Rules yang divalidasi:
  * BR-09: Pengguna harus sudah login
@@ -34,7 +34,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatCurrency, getLoginUrl } from "@/lib/utils";
 
-// ─── Tipe form ────────────────────────────────────────────────
+// â”€â”€â”€ Tipe form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface CheckoutForm {
   recipientName:   string;
   shippingAddress: string;
@@ -44,7 +44,7 @@ interface CheckoutForm {
 
 type FormErrors = Partial<Record<keyof CheckoutForm, string>>;
 
-// ─── Validasi form sisi klien ─────────────────────────────────
+// â”€â”€â”€ Validasi form sisi klien â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function validateForm(form: CheckoutForm): FormErrors {
   const errors: FormErrors = {};
 
@@ -63,7 +63,7 @@ function validateForm(form: CheckoutForm): FormErrors {
   return errors;
 }
 
-// ─── Halaman Checkout ─────────────────────────────────────────
+// â”€â”€â”€ Halaman Checkout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
   const { isAuthenticated, token }       = useAuth();
@@ -80,18 +80,18 @@ export default function CheckoutPage() {
   const [loading, setLoading]   = useState(false);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
 
-  // ── Guard: belum login (BR-09) ────────────────────────────────
+  // â”€â”€ Guard: belum login (BR-09) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   if (!isAuthenticated) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center gap-5 px-4">
         <div className="w-20 h-20 rounded-full bg-brand-100 flex items-center justify-center">
-          <Lock size={30} className="text-brand-400" />
+          <Lock size={30} className="text-sage-500" />
         </div>
         <div className="text-center">
-          <p className="font-heading text-xl font-semibold text-warm-900">
+          <p className="font-heading text-xl font-semibold text-stone-900">
             Login Diperlukan
           </p>
-          <p className="text-sm text-warm-500 mt-1">
+          <p className="text-sm text-stone-500 mt-1">
             Anda perlu login untuk melanjutkan checkout (BR-09)
           </p>
         </div>
@@ -104,18 +104,18 @@ export default function CheckoutPage() {
     );
   }
 
-  // ── Guard: keranjang kosong (BR-10) ──────────────────────────
+  // â”€â”€ Guard: keranjang kosong (BR-10) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   if (items.length === 0) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center gap-5 px-4">
         <div className="w-20 h-20 rounded-full bg-brand-100 flex items-center justify-center">
-          <ShoppingBag size={30} className="text-brand-400" />
+          <ShoppingBag size={30} className="text-sage-500" />
         </div>
         <div className="text-center">
-          <p className="font-heading text-xl font-semibold text-warm-900">
+          <p className="font-heading text-xl font-semibold text-stone-900">
             Keranjang Kosong
           </p>
-          <p className="text-sm text-warm-500 mt-1">
+          <p className="text-sm text-stone-500 mt-1">
             Tambahkan produk terlebih dahulu sebelum checkout (BR-10)
           </p>
         </div>
@@ -126,7 +126,7 @@ export default function CheckoutPage() {
     );
   }
 
-  // ── Handler perubahan form ────────────────────────────────────
+  // â”€â”€ Handler perubahan form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleChange = (field: keyof CheckoutForm, value: string) => {
     setForm((f) => ({ ...f, [field]: value }));
     // Hapus error field yang sedang diubah
@@ -135,7 +135,7 @@ export default function CheckoutPage() {
     }
   };
 
-  // ── Submit checkout ───────────────────────────────────────────
+  // â”€â”€ Submit checkout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setApiError("");
@@ -185,15 +185,15 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-warm-50" data-testid="checkout-page">
+    <div className="min-h-screen bg-stone-50" data-testid="checkout-page">
 
       {/* Header */}
-      <div className="bg-white border-b border-warm-200">
+      <div className="bg-white border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="font-heading text-2xl font-semibold text-warm-900">
+          <h1 className="font-heading text-2xl font-semibold text-stone-900">
             Checkout
           </h1>
-          <p className="text-sm text-warm-500 mt-1">
+          <p className="text-sm text-stone-500 mt-1">
             Langkah terakhir sebelum pesanan Anda diproses
           </p>
         </div>
@@ -202,11 +202,11 @@ export default function CheckoutPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid lg:grid-cols-3 gap-6">
 
-          {/* ── Form Pengiriman ───────────────────────────────── */}
+          {/* â”€â”€ Form Pengiriman â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="bg-white rounded-2xl border border-warm-200 p-6">
-              <h2 className="font-semibold text-warm-900 mb-5 flex items-center gap-2">
-                <MapPin size={16} className="text-brand-500" />
+            <div className="bg-white rounded-2xl border border-stone-200 p-6">
+              <h2 className="font-semibold text-stone-900 mb-5 flex items-center gap-2">
+                <MapPin size={16} className="text-sage-600" />
                 Informasi Pengiriman
               </h2>
 
@@ -231,10 +231,10 @@ export default function CheckoutPage() {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="recipientName"
-                    className="block text-sm font-medium text-warm-700"
+                    className="block text-sm font-medium text-stone-700"
                   >
                     <span className="flex items-center gap-1.5">
-                      <User size={13} className="text-brand-400" />
+                      <User size={13} className="text-sage-500" />
                       Nama Penerima
                       <span className="text-red-500">*</span>
                     </span>
@@ -247,10 +247,10 @@ export default function CheckoutPage() {
                     value={form.recipientName}
                     onChange={(e) => handleChange("recipientName", e.target.value)}
                     autoComplete="name"
-                    className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl transition-colors placeholder:text-warm-400 text-warm-900 focus:outline-none focus:ring-2 ${
+                    className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl transition-colors placeholder:text-stone-400 text-stone-900 focus:outline-none focus:ring-2 ${
                       errors.recipientName
                         ? "border-red-400 focus:ring-red-200"
-                        : "border-warm-300 hover:border-warm-400 focus:ring-brand-300 focus:border-brand-400"
+                        : "border-stone-300 hover:border-warm-400 focus:ring-sage-300 focus:border-sage-400"
                     }`}
                   />
                   {errors.recipientName && (
@@ -262,10 +262,10 @@ export default function CheckoutPage() {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="shippingAddress"
-                    className="block text-sm font-medium text-warm-700"
+                    className="block text-sm font-medium text-stone-700"
                   >
                     <span className="flex items-center gap-1.5">
-                      <MapPin size={13} className="text-brand-400" />
+                      <MapPin size={13} className="text-sage-500" />
                       Alamat Pengiriman
                       <span className="text-red-500">*</span>
                     </span>
@@ -278,10 +278,10 @@ export default function CheckoutPage() {
                     onChange={(e) => handleChange("shippingAddress", e.target.value)}
                     rows={3}
                     autoComplete="street-address"
-                    className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl resize-none transition-colors placeholder:text-warm-400 text-warm-900 focus:outline-none focus:ring-2 ${
+                    className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl resize-none transition-colors placeholder:text-stone-400 text-stone-900 focus:outline-none focus:ring-2 ${
                       errors.shippingAddress
                         ? "border-red-400 focus:ring-red-200"
-                        : "border-warm-300 hover:border-warm-400 focus:ring-brand-300 focus:border-brand-400"
+                        : "border-stone-300 hover:border-warm-400 focus:ring-sage-300 focus:border-sage-400"
                     }`}
                   />
                   {errors.shippingAddress && (
@@ -293,10 +293,10 @@ export default function CheckoutPage() {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="phoneNumber"
-                    className="block text-sm font-medium text-warm-700"
+                    className="block text-sm font-medium text-stone-700"
                   >
                     <span className="flex items-center gap-1.5">
-                      <Phone size={13} className="text-brand-400" />
+                      <Phone size={13} className="text-sage-500" />
                       Nomor Telepon
                       <span className="text-red-500">*</span>
                     </span>
@@ -309,10 +309,10 @@ export default function CheckoutPage() {
                     value={form.phoneNumber}
                     onChange={(e) => handleChange("phoneNumber", e.target.value)}
                     autoComplete="tel"
-                    className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl transition-colors placeholder:text-warm-400 text-warm-900 focus:outline-none focus:ring-2 ${
+                    className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl transition-colors placeholder:text-stone-400 text-stone-900 focus:outline-none focus:ring-2 ${
                       errors.phoneNumber
                         ? "border-red-400 focus:ring-red-200"
-                        : "border-warm-300 hover:border-warm-400 focus:ring-brand-300 focus:border-brand-400"
+                        : "border-stone-300 hover:border-warm-400 focus:ring-sage-300 focus:border-sage-400"
                     }`}
                   />
                   {errors.phoneNumber && (
@@ -324,12 +324,12 @@ export default function CheckoutPage() {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="notes"
-                    className="block text-sm font-medium text-warm-700"
+                    className="block text-sm font-medium text-stone-700"
                   >
                     <span className="flex items-center gap-1.5">
-                      <StickyNote size={13} className="text-brand-400" />
+                      <StickyNote size={13} className="text-sage-500" />
                       Catatan untuk Kurir
-                      <span className="text-xs text-warm-400 font-normal">(opsional)</span>
+                      <span className="text-xs text-stone-400 font-normal">(opsional)</span>
                     </span>
                   </label>
                   <textarea
@@ -339,7 +339,7 @@ export default function CheckoutPage() {
                     value={form.notes}
                     onChange={(e) => handleChange("notes", e.target.value)}
                     rows={2}
-                    className="w-full px-3.5 py-2.5 text-sm bg-white border border-warm-300 hover:border-warm-400 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 placeholder:text-warm-400 text-warm-900"
+                    className="w-full px-3.5 py-2.5 text-sm bg-white border border-stone-300 hover:border-warm-400 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-sage-300 focus:border-sage-400 placeholder:text-stone-400 text-stone-900"
                   />
                 </div>
 
@@ -358,8 +358,8 @@ export default function CheckoutPage() {
             </div>
 
             {/* Info keamanan */}
-            <div className="flex items-center gap-2.5 text-xs text-warm-500 px-1">
-              <Lock size={12} className="text-brand-400 shrink-0" />
+            <div className="flex items-center gap-2.5 text-xs text-stone-500 px-1">
+              <Lock size={12} className="text-sage-500 shrink-0" />
               <span>
                 Pembayaran dan data Anda terlindungi. Pesanan dibuat dengan status{" "}
                 <strong>DRAFT</strong> dan dapat dikonfirmasi atau dibatalkan.
@@ -367,14 +367,14 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* ── Ringkasan Pesanan ─────────────────────────────── */}
+          {/* â”€â”€ Ringkasan Pesanan â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div className="lg:col-span-1">
             <div
               data-testid="order-summary"
-              className="bg-white rounded-2xl border border-warm-200 p-5 sticky top-24 space-y-4"
+              className="bg-white rounded-2xl border border-stone-200 p-5 sticky top-24 space-y-4"
             >
-              <h2 className="font-semibold text-warm-900 flex items-center gap-2">
-                <ShoppingBag size={15} className="text-brand-500" />
+              <h2 className="font-semibold text-stone-900 flex items-center gap-2">
+                <ShoppingBag size={15} className="text-sage-600" />
                 Ringkasan Pesanan
               </h2>
 
@@ -382,7 +382,7 @@ export default function CheckoutPage() {
               <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
                 {items.map(({ product, quantity }) => (
                   <div key={product.id} className="flex items-center gap-2.5">
-                    <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-warm-100 shrink-0">
+                    <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-stone-100 shrink-0">
                       {!imgErrors[product.id] ? (
                         <Image
                           src={product.imageUrl}
@@ -396,7 +396,7 @@ export default function CheckoutPage() {
                         />
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-br from-brand-100 to-brand-200 flex items-center justify-center text-sm">
-                          ✨
+                          âœ¨
                         </div>
                       )}
                     </div>
@@ -404,8 +404,8 @@ export default function CheckoutPage() {
                       <p className="text-xs font-medium text-warm-800 line-clamp-1">
                         {product.name}
                       </p>
-                      <p className="text-xs text-warm-400">
-                        {quantity} × {formatCurrency(product.price)}
+                      <p className="text-xs text-stone-400">
+                        {quantity} Ã— {formatCurrency(product.price)}
                       </p>
                     </div>
                     <span className="text-xs font-semibold text-warm-800 shrink-0">
@@ -416,24 +416,24 @@ export default function CheckoutPage() {
               </div>
 
               {/* Total */}
-              <div className="border-t border-warm-200 pt-3 space-y-2">
-                <div className="flex justify-between text-xs text-warm-500">
+              <div className="border-t border-stone-200 pt-3 space-y-2">
+                <div className="flex justify-between text-xs text-stone-500">
                   <span>{items.length} produk ({items.reduce((s, i) => s + i.quantity, 0)} unit)</span>
                 </div>
                 <div
                   data-testid="checkout-total"
-                  className="flex justify-between font-semibold text-warm-900"
+                  className="flex justify-between font-semibold text-stone-900"
                 >
                   <span>Total</span>
-                  <span className="text-brand-600">{formatCurrency(totalPrice)}</span>
+                  <span className="text-sage-600">{formatCurrency(totalPrice)}</span>
                 </div>
               </div>
 
               <Link
                 href="/cart"
-                className="block text-center text-xs text-warm-400 hover:text-brand-600 transition-colors"
+                className="block text-center text-xs text-stone-400 hover:text-sage-600 transition-colors"
               >
-                ← Ubah keranjang
+                â† Ubah keranjang
               </Link>
             </div>
           </div>
@@ -442,3 +442,4 @@ export default function CheckoutPage() {
     </div>
   );
 }
+

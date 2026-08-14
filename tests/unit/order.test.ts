@@ -142,7 +142,7 @@ describe("validateCheckout — Validasi Data Checkout", () => {
   const validInput = {
     isLoggedIn:      true,
     cartItemCount:   2,
-    recipientName:   "Sarah Putri",
+    recipientName:   "Team 1",
     shippingAddress: "Jl. Sultan Alauddin No. 259, Makassar",
     phoneNumber:     "081234567890",
   };
