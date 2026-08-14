@@ -11,7 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getLoginUrl } from "@/lib/utils";
 import { Package, MapPin, Phone, User, ArrowLeft, RefreshCw } from "lucide-react";
 
 const STATUS_CONFIG = {
@@ -43,8 +43,12 @@ export default function OrderDetailPage() {
 
   useEffect(() => {
     if (isLoading) return;
-    if (!isAuthenticated) { router.replace("/login"); return; }
+    if (!isAuthenticated) {
+      router.replace(getLoginUrl(`/orders/${params.id}`));
+      return;
+    }
     fetchOrder();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isLoading, token]);
 
   const handleStatusUpdate = async (newStatus: string) => {

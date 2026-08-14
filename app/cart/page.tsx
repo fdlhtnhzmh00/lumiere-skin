@@ -12,7 +12,7 @@ import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { useCart } from "@/lib/context/CartContext";
 import { useAuth } from "@/lib/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { formatCurrency, cn } from "@/lib/utils";
+import { formatCurrency, cn, getLoginUrl } from "@/lib/utils";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCart();
@@ -31,7 +31,10 @@ export default function CartPage() {
   };
 
   const handleCheckout = () => {
-    if (!isAuthenticated) { router.push("/login"); return; }
+    if (!isAuthenticated) {
+      router.push(getLoginUrl("/checkout"));
+      return;
+    }
     router.push("/checkout");
   };
 
@@ -159,7 +162,7 @@ export default function CartPage() {
               {!isAuthenticated && (
                 <p className="text-xs text-center text-warm-500">
                   Anda perlu{" "}
-                  <Link href="/login" className="text-brand-600 hover:underline">masuk</Link>{" "}
+                  <Link href={getLoginUrl("/checkout")} className="text-brand-600 hover:underline">masuk</Link>{" "}
                   untuk checkout
                 </p>
               )}

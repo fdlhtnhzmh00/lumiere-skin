@@ -54,3 +54,33 @@ export function generateSlug(name: string): string {
     .trim()
     .replace(/^-|-$/g, "");            // hapus strip di awal/akhir
 }
+
+/**
+ * Buat URL login dengan callbackUrl yang aman.
+ * Hanya menerima relative path (mencegah open redirect).
+ * Contoh: getLoginUrl("/checkout") → "/login?callbackUrl=%2Fcheckout"
+ */
+export function getLoginUrl(callbackPath?: string): string {
+  if (!callbackPath) return "/login";
+  // Hanya izinkan relative path (dimulai dengan / tapi bukan //)
+  const safe =
+    callbackPath.startsWith("/") && !callbackPath.startsWith("//")
+      ? callbackPath
+      : "/";
+  if (safe === "/") return "/login";
+  return `/login?callbackUrl=${encodeURIComponent(safe)}`;
+}
+
+/**
+ * Ambil URL tujuan dari callbackUrl yang aman.
+ */
+export function getSafeCallbackUrl(raw: string | null, fallback = "/"): string {
+  if (!raw) return fallback;
+  try {
+    const decoded = decodeURIComponent(raw);
+    if (decoded.startsWith("/") && !decoded.startsWith("//")) {
+      return decoded;
+    }
+  } catch {/* invalid encoding */}
+  return fallback;
+}

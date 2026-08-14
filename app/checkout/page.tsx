@@ -13,7 +13,7 @@ import { useCart } from "@/lib/context/CartContext";
 import { useAuth } from "@/lib/context/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getLoginUrl } from "@/lib/utils";
 import { ShoppingBag } from "lucide-react";
 
 export default function CheckoutPage() {
@@ -31,7 +31,7 @@ export default function CheckoutPage() {
       <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4 px-4">
         <ShoppingBag size={40} className="text-brand-300" />
         <p className="font-semibold text-warm-900">Masuk untuk melanjutkan checkout</p>
-        <Link href="/login"><Button>Masuk Sekarang</Button></Link>
+        <Link href={getLoginUrl("/checkout")}><Button>Masuk Sekarang</Button></Link>
       </div>
     );
   }

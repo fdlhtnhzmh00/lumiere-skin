@@ -11,7 +11,7 @@ import { ShoppingBag, Check } from "lucide-react";
 import { useCart } from "@/lib/context/CartContext";
 import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, getLoginUrl } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 interface Product {
@@ -37,7 +37,11 @@ export function ProductCard({ product }: { product: Product }) {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!isAuthenticated) { router.push("/login"); return; }
+    if (!isAuthenticated) {
+      // Redirect ke login dengan callbackUrl ke halaman produk ini
+      router.push(getLoginUrl(`/products/${product.slug}`));
+      return;
+    }
     if (outStock) return;
 
     const result = addItem(

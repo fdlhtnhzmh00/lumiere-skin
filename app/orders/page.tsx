@@ -8,8 +8,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/context/AuthContext";
-import { formatCurrency } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { formatCurrency, cn, getLoginUrl } from "@/lib/utils";
 import { ShoppingBag, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -32,8 +31,10 @@ export default function OrdersPage() {
 
   useEffect(() => {
     if (isLoading) return;
-    if (!isAuthenticated) { router.replace("/login"); return; }
-    // Ambil orders via Prisma dari server (simple approach)
+    if (!isAuthenticated) {
+      router.replace(getLoginUrl("/orders"));
+      return;
+    }
     fetch("/api/orders/list", { headers: { Authorization: `Bearer ${token}` } })
       .then((r) => r.json())
       .then((j) => { setOrders(j.data?.orders ?? []); setLoading(false); })
