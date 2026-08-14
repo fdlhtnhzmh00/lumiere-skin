@@ -14,11 +14,12 @@ datasource db {
 // =====================
 // USER MODEL
 // =====================
+// Menyimpan data akun pengguna untuk autentikasi
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   username  String   @unique
-  password  String
+  password  String   // Di-hash dengan bcrypt sebelum disimpan
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -31,14 +32,15 @@ model User {
 // =====================
 // CATEGORY MODEL
 // =====================
+// Kategori produk skincare (10 kategori)
 model Category {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  slug        String    @unique
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
   description String?
   imageUrl    String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   products Product[]
 
@@ -48,76 +50,108 @@ model Category {
 // =====================
 // PRODUCT MODEL
 // =====================
+// Data produk skincare dengan validasi business rules
+// Business Rules: price > 0, stock >= 0, name wajib diisi
 model Product {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
-  slug        String   @unique
+  slug        String  @unique
   description String
-  ingredients String?
-  skinType    String?
-  howToUse    String?
-  price       Float
-  stock       Int      @default(0)
+  ingredients String? // Komposisi bahan produk
+  skinType    String? // Jenis kulit yang cocok
+  howToUse    String? // Cara penggunaan produk
+  price       Float   // Harga dalam Rupiah (harus > 0)
+  stock       Int     @default(0) // Stok tersedia (harus >= 0)
   imageUrl    String
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isActive    Boolean @default(true)
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
 
   orderItems OrderItem[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Index untuk mempercepat filter produk berdasarkan kategori
+  @@index([categoryId])
+  // Index untuk pencarian produk aktif
+  @@index([isActive])
+  // Composite index untuk query produk aktif per kategori
+  @@index([categoryId, isActive])
   @@map("products")
 }
 
 // =====================
 // ORDER MODEL
 // =====================
+// Data pesanan pengguna dengan status transition
+// Business Rules: status transitions DRAFT->CONFIRMED->COMPLETED, CANCELLED
 model Order {
-  id             String      @id @default(cuid())
-  orderNumber    String      @unique
-  status         OrderStatus @default(DRAFT)
-  totalPrice     Float
-  recipientName  String
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique // Format: LS-{timestamp}-{random}
+  status          OrderStatus @default(DRAFT)
+  totalPrice      Float
+  recipientName   String
   shippingAddress String
-  phoneNumber    String
-  notes          String?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  phoneNumber     String
+  notes           String?
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
   items OrderItem[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Index untuk mempercepat query pesanan per user
+  @@index([userId])
+  // Index untuk filter pesanan berdasarkan status
+  @@index([status])
+  // Composite index untuk query pesanan user berdasarkan status
+  @@index([userId, status])
   @@map("orders")
 }
 
 // =====================
 // ORDER ITEM MODEL
 // =====================
+// Item individual dalam setiap pesanan
+// Menyimpan snapshot harga saat pembelian (unitPrice)
 model OrderItem {
   id        String @id @default(cuid())
-  quantity  Int
-  unitPrice Float
-  subtotal  Float
+  quantity  Int    // Jumlah produk yang dibeli (1-10, <= stock)
+  unitPrice Float  // Harga produk saat transaksi (snapshot)
+  subtotal  Float  // quantity * unitPrice
 
-  orderId   String
-  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   productId String
   product   Product @relation(fields: [productId], references: [id])
 
+  // Index untuk mempercepat query items per order
+  @@index([orderId])
+  // Index untuk reverse lookup: produk mana yang pernah dipesan
+  @@index([productId])
   @@map("order_items")
 }
 
 // =====================
 // ORDER STATUS ENUM
 // =====================
+// Aturan transisi status (State Transition Testing):
+// DRAFT     -> CONFIRMED  (valid)
+// DRAFT     -> CANCELLED  (valid)
+// CONFIRMED -> COMPLETED  (valid)
+// CONFIRMED -> CANCELLED  (valid)
+// COMPLETED -> *          (tidak valid)
+// CANCELLED -> *          (tidak valid)
 enum OrderStatus {
   DRAFT
   CONFIRMED
   COMPLETED
   CANCELLED
 }
+
