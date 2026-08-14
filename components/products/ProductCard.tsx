@@ -64,7 +64,7 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block">
+    <Link href={`/products/${product.slug}`} className="group block" data-testid="product-card">
       <div className="bg-white rounded-2xl overflow-hidden border border-warm-200 hover:border-brand-300 hover:shadow-lg transition-all duration-300">
 
         {/* Gambar */}
@@ -98,12 +98,18 @@ export function ProductCard({ product }: { product: Product }) {
             {product.category.name}
           </Badge>
 
-          <h3 className="text-sm font-medium text-warm-900 line-clamp-2 leading-snug group-hover:text-brand-600 transition-colors">
+          <h3
+            data-testid="product-card-name"
+            className="text-sm font-medium text-warm-900 line-clamp-2 leading-snug group-hover:text-brand-600 transition-colors"
+          >
             {product.name}
           </h3>
 
           <div className="flex items-center justify-between pt-0.5">
-            <span className="text-base font-semibold text-warm-900">
+            <span
+              data-testid="product-card-price"
+              className="text-base font-semibold text-warm-900"
+            >
               {formatCurrency(product.price)}
             </span>
             <span className={cn("text-xs", product.stock <= 5 && product.stock > 0 ? "text-amber-600" : "text-warm-400")}>
@@ -115,6 +121,8 @@ export function ProductCard({ product }: { product: Product }) {
           <button
             onClick={handleAddToCart}
             disabled={outStock}
+            data-testid="btn-add-to-cart-card"
+            data-product-id={product.id}
             className={cn(
               "w-full flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-xl transition-all",
               outStock
