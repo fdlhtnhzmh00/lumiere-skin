@@ -20,6 +20,9 @@
     "test:e2e:open": "cypress open",
     "test:api": "newman run tests/api/lumiere-skin.postman_collection.json --environment tests/api/lumiere-skin.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export tests/api/reports/report.html"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",
