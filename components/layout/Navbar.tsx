@@ -15,10 +15,10 @@ import { useAuth } from "@/lib/context/AuthContext";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "/",               label: "Home" },
-  { href: "/products",       label: "Shop All" },
-  { href: "/products?category=serum-ampoule",   label: "Best Sellers" },
-  { href: "/products?category=pelembap-krim",   label: "Skincare" },
+  { href: "/",          label: "Home",         primary: true },
+  { href: "/products",  label: "Shop All",     primary: true },
+  { href: "/products",  label: "Best Sellers", primary: false },
+  { href: "/products",  label: "Skincare",     primary: false },
 ];
 
 export function Navbar() {
@@ -94,11 +94,11 @@ export function Navbar() {
             <nav className="hidden lg:flex items-center gap-7 flex-1 justify-center">
               {NAV_LINKS.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.label}
                   href={link.href}
                   className={cn(
                     "text-sm font-medium transition-colors hover:text-sage-700",
-                    pathname === link.href
+                    link.primary && pathname === link.href
                       ? "text-sage-700 border-b-2 border-sage-600 pb-0.5"
                       : "text-stone-600"
                   )}
@@ -200,12 +200,12 @@ export function Navbar() {
           <div className="lg:hidden border-t border-stone-100 bg-white px-4 py-5 space-y-1 animate-fade-in">
             {NAV_LINKS.map((link) => (
               <Link
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   "block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                  pathname === link.href
+                  link.primary && pathname === link.href
                     ? "bg-sage-50 text-sage-700"
                     : "text-stone-700 hover:bg-stone-50"
                 )}
