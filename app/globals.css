@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ─── LUMIÈRE SKIN Design System ──────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Font families — diisi oleh next/font via CSS variables */
+  --font-heading: var(--font-playfair);
+  --font-sans:    var(--font-inter);
+
+  /* Brand color palette — warm blush & gold luxury */
+  --color-brand-50:  #fdf8f5;
+  --color-brand-100: #f7ede5;
+  --color-brand-200: #edd5c2;
+  --color-brand-300: #dfb99a;
+  --color-brand-400: #cc9671;
+  --color-brand-500: #bc7d52;
+  --color-brand-600: #a4623a;
+  --color-brand-700: #884a2c;
+  --color-brand-800: #6c3620;
+  --color-brand-900: #4e2514;
+
+  /* Gold accent */
+  --color-gold-300: #e8d4a4;
+  --color-gold-400: #d4b87a;
+  --color-gold-500: #c9a96e;
+  --color-gold-600: #b89053;
+
+  /* Neutral warm — digunakan untuk text dan border */
+  --color-warm-50:  #fafaf9;
+  --color-warm-100: #f5f5f3;
+  --color-warm-200: #e8e5e1;
+  --color-warm-300: #d5d0c9;
+  --color-warm-400: #a8a09b;
+  --color-warm-500: #7c7470;
+  --color-warm-600: #5a5450;
+  --color-warm-700: #3f3b38;
+  --color-warm-800: #2c2926;
+  --color-warm-900: #1a1816;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── CSS Custom Properties ──────────────────────────────────── */
+:root {
+  --bg-page:      #fafaf9;
+  --text-primary: #1a1816;
+  --text-muted:   #7c7470;
+  --border:       #e8e5e1;
+  --card-bg:      #ffffff;
+}
+
+/* ─── Base Styles ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-inter, "Inter", system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── Typography ─────────────────────────────────────────────── */
+.font-heading {
+  font-family: var(--font-playfair, "Playfair Display", Georgia, serif);
+}
+
+h1, h2, h3, .heading {
+  font-family: var(--font-playfair, "Playfair Display", Georgia, serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f5f5f3; }
+::-webkit-scrollbar-thumb { background: #d5d0c9; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a09b; }
+
+/* ─── Animations ─────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ─── Skeleton loading ───────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #f0ede9 25%, #e8e4df 50%, #f0ede9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* ─── Product image aspect ratio ────────────────────────────── */
+.aspect-product {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* ─── Line clamp utilities ───────────────────────────────────── */
+.line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+.line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
