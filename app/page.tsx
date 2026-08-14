@@ -22,7 +22,7 @@ import { CategoryCard } from "@/components/products/CategoryCard";
 
 // ─── Hero image ─────────────────────────────────────────────
 const HERO_IMAGE =
-  "https://i.ibb.co/pjMQJZyJ/7c0db6c9-de9d-46d6-8f8e-29cea104f975.jpg";
+  "https://i.ibb.co/21t9yJqm/4431bdaf-d545-4697-bd4e-7b346b3cba6f.jpg";
 
 // ─── Data fetching ────────────────────────────────────────────
 async function getHomeData() {
