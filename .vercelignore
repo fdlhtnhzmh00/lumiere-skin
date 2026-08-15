@@ -1,14 +1,20 @@
 # Vercel Ignore — file yang tidak perlu di-deploy
+
+# Environment files (jangan di-deploy, gunakan Vercel dashboard)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Test files (tidak perlu di production)
+# Test files
 tests/
 cypress/
+
+# Development docs
 docs/
+
+# Scripts development
 scripts/
 
 # Coverage reports
@@ -17,3 +23,16 @@ coverage/
 # Temporary files
 *.tmp
 *.log
+
+# AI/Agent metadata files
+AGENTS.md
+CLAUDE.md
+
+# Test configs
+tsconfig.jest.json
+tsconfig.bdd.json
+tsconfig.scripts.json
+cucumber.js
+
+# BDD reports (generated)
+tests/bdd/reports/
