@@ -20,9 +20,9 @@ import { prisma } from "@/lib/db";
 import { ProductCard } from "@/components/products/ProductCard";
 import { CategoryCard } from "@/components/products/CategoryCard";
 
-// ─── Hero image ─────────────────────────────────────────────
+// ─── Hero image — wrapped via wsrv.nl proxy (ImgBB blocks mobile UAs directly) ─
 const HERO_IMAGE =
-  "https://i.ibb.co/21t9yJqm/4431bdaf-d545-4697-bd4e-7b346b3cba6f.jpg";
+  "https://wsrv.nl/?url=i.ibb.co/21t9yJqm/4431bdaf-d545-4697-bd4e-7b346b3cba6f.jpg";
 
 // ─── Data fetching ────────────────────────────────────────────
 async function getHomeData() {

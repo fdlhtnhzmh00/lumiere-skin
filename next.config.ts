@@ -36,6 +36,12 @@ const nextConfig: NextConfig = {
         hostname: "i.ibb.co",
         pathname: "/**",
       },
+      // wsrv.nl — CDN proxy untuk bypass ImgBB hotlink protection di mobile
+      {
+        protocol: "https",
+        hostname: "wsrv.nl",
+        pathname: "/**",
+      },
     ],
   },
 };

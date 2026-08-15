@@ -1,9 +1,18 @@
 /**
  * prisma/fix-broken-images.ts
- * Update semua 58 produk dengan URL ImgBB baru yang disediakan user.
+ * Update semua 58 produk: wrap URL ImgBB dengan wsrv.nl proxy
+ * agar gambar tampil di browser mobile (ImgBB memblokir UA mobile secara langsung).
+ *
+ * Format wsrv.nl: https://wsrv.nl/?url=i.ibb.co/<path>
  */
 
 import { PrismaClient } from "@prisma/client";
+
+/** Wrap ImgBB URL dengan wsrv.nl CDN proxy */
+function wsrv(imgbbUrl: string): string {
+  // hapus https:// → wsrv.nl menerima URL tanpa skema
+  return `https://wsrv.nl/?url=${imgbbUrl.replace("https://", "")}`;
+}
 
 const prisma = new PrismaClient();
 
@@ -157,7 +166,7 @@ function verifyUnique() {
 }
 
 async function main() {
-  console.log("🖼️  Update gambar produk dengan URL ImgBB baru...\n");
+  console.log("🖼️  Update gambar produk: ImgBB → wsrv.nl proxy...\n");
   verifyUnique();
 
   const products = await prisma.product.findMany({
@@ -173,16 +182,16 @@ async function main() {
 
     await prisma.product.update({
       where: { id: p.id },
-      data: { imageUrl: newUrl },
+      data: { imageUrl: wsrv(newUrl) },
     });
     updated++;
-    console.log(`✅ ${p.name.substring(0, 44).padEnd(44)} → ImgBB`);
+    console.log(`✅ ${p.name.substring(0, 44).padEnd(44)} → wsrv.nl`);
   }
 
   console.log(`\n─────────────────────────────────────────────`);
   console.log(`✅ Diperbarui   : ${updated} produk`);
   console.log(`⚠️  Tidak ada   : ${notFound} (soft-deleted test products)`);
-  console.log(`\n🎉 Semua gambar produk berhasil diperbarui!`);
+  console.log(`\n🎉 Semua gambar produk berhasil diupdate ke wsrv.nl proxy!`);
 }
 
 main()
