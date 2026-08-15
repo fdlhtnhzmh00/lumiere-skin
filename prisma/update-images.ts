@@ -1,15 +1,17 @@
 /**
  * prisma/update-images.ts
  *
- * Script untuk memperbarui imageUrl semua produk dengan gambar
- * yang dipilih dari Pinterest dan di-host di ImgBB.
+ * Script untuk memperbarui imageUrl semua produk.
+ * Menggunakan Unsplash dengan crop parameters untuk reliabilitas.
  *
- * CATATAN TEKNIS:
- * - URL asli dari ImgBB menggunakan domain: i.ibb.co.com (tidak valid)
- * - URL yang benar adalah: i.ibb.co (tanpa .com)
- * - Script ini menggunakan URL yang sudah diperbaiki
+ * Kenapa beralih dari ImgBB ke Unsplash:
+ * - ImgBB images dapat dihapus oleh pemilik akun kapanpun
+ * - Unsplash CDN lebih stabil untuk demo/production
+ * - next.config.ts menggunakan unoptimized:true sehingga
+ *   browser fetch langsung ke Unsplash tanpa proxy server
  *
  * Jalankan: npm run db:update-images
+ * Untuk fix broken images: npm run db:fix-images
  */
 
 import { PrismaClient } from "@prisma/client";
