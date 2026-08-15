@@ -1,0 +1,816 @@
+{
+  "info": {
+    "_postman_id": "lumiere-skin-api-automation-2026",
+    "name": "LUMIÈRE SKIN — API Automation Tests",
+    "description": "Otomatisasi Pengujian RESTful API untuk LUMIÈRE SKIN Web Application Toko Skincare.\n\nPhase 18 — UTS Advanced Software Testing and Quality Assurance\nUniversitas Muhammadiyah Makassar — Kelompok 1 VI RPL-A\n\nTotal: 12 test cases wajib + 3 setup requests\nCoverage: Products API + Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" }
+  ],
+  "item": [
+
+    {
+      "name": "0 — Setup (Prerequisites)",
+      "description": "Request persiapan sebelum test utama: Login untuk token + ambil data awal",
+      "item": [
+
+        {
+          "name": "S-01: Login — Dapatkan JWT Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('S-01: Login berhasil — status 200', function() {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('S-01: Response memiliki token JWT', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.true;",
+                  "  pm.expect(json.data.token).to.be.a('string').and.not.empty;",
+                  "  pm.environment.set('token', json.data.token);",
+                  "});",
+                  "",
+                  "pm.test('S-01: Data user dikembalikan', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.data.user.email).to.equal('user@lumiereskin.com');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] }
+          }
+        },
+
+        {
+          "name": "S-02: GET Categories — Ambil CategoryId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('S-02: Categories berhasil dimuat', function() {",
+                  "  pm.response.to.have.status(200);",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.data.categories).to.be.an('array').and.not.empty;",
+                  "  pm.environment.set('categoryId', json.data.categories[0].id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api","categories"] }
+          }
+        },
+
+        {
+          "name": "S-03: GET Products — Ambil ProductId untuk Test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('S-03: Produk tersedia untuk test', function() {",
+                  "  pm.response.to.have.status(200);",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.data.products).to.be.an('array').and.not.empty;",
+                  "  var product = json.data.products[0];",
+                  "  pm.environment.set('testProductId', product.id);",
+                  "  pm.environment.set('testProductSlug', product.slug);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/products?limit=1", "host": ["{{baseUrl}}"], "path": ["api","products"], "query": [{"key":"limit","value":"1"}] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "TC-API Products",
+      "description": "Test cases untuk endpoint produk (TC-API-01 s/d TC-API-09)",
+      "item": [
+
+        {
+          "name": "TC-API-01: GET All Products — Ambil Semua Produk",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ── Status Code ──────────────────────────────────────────",
+                  "pm.test('TC-API-01: Status code 200 OK', function() {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// ── Response Time ─────────────────────────────────────────",
+                  "pm.test('TC-API-01: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "// ── Content Type ──────────────────────────────────────────",
+                  "pm.test('TC-API-01: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "// ── Response Body ─────────────────────────────────────────",
+                  "pm.test('TC-API-01: Response body success=true', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-01: data.products adalah array tidak kosong', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.data.products).to.be.an('array').and.not.empty;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-01: data.total adalah angka positif', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.data.total).to.be.a('number').and.greaterThan(0);",
+                  "});",
+                  "",
+                  "// ── Field Wajib per Produk ────────────────────────────────",
+                  "pm.test('TC-API-01: Setiap produk memiliki field wajib', function() {",
+                  "  var json = pm.response.json();",
+                  "  var product = json.data.products[0];",
+                  "  pm.expect(product).to.have.property('id');",
+                  "  pm.expect(product).to.have.property('name');",
+                  "  pm.expect(product).to.have.property('price');",
+                  "  pm.expect(product).to.have.property('stock');",
+                  "  pm.expect(product).to.have.property('imageUrl');",
+                  "  pm.expect(product).to.have.property('category');",
+                  "});",
+                  "",
+                  "// ── Data Types ────────────────────────────────────────────",
+                  "pm.test('TC-API-01: Tipe data field produk benar', function() {",
+                  "  var json = pm.response.json();",
+                  "  var p = json.data.products[0];",
+                  "  pm.expect(p.id).to.be.a('string');",
+                  "  pm.expect(p.name).to.be.a('string');",
+                  "  pm.expect(p.price).to.be.a('number').and.greaterThan(0);",
+                  "  pm.expect(p.stock).to.be.a('number').and.greaterThanOrEqual(0);",
+                  "  pm.expect(p.isActive).to.be.a('boolean');",
+                  "});",
+                  "",
+                  "// ── JSON Schema Validation ────────────────────────────────",
+                  "pm.test('TC-API-01: JSON Schema valid', function() {",
+                  "  var json = pm.response.json();",
+                  "  var schema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'data'],",
+                  "    properties: {",
+                  "      success: { type: 'boolean' },",
+                  "      data: {",
+                  "        type: 'object',",
+                  "        required: ['products', 'total'],",
+                  "        properties: {",
+                  "          products: { type: 'array' },",
+                  "          total: { type: 'number' }",
+                  "        }",
+                  "      }",
+                  "    }",
+                  "  };",
+                  "  pm.response.to.have.jsonSchema(schema);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api","products"] }
+          }
+        },
+
+        {
+          "name": "TC-API-02: GET Product by Valid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-02: Status code 200 OK', function() {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-02: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-02: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-02: Product detail dikembalikan', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.true;",
+                  "  pm.expect(json.data.product).to.be.an('object');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-02: Product memiliki semua field detail', function() {",
+                  "  var p = pm.response.json().data.product;",
+                  "  pm.expect(p).to.have.property('id');",
+                  "  pm.expect(p).to.have.property('name');",
+                  "  pm.expect(p).to.have.property('description');",
+                  "  pm.expect(p).to.have.property('price');",
+                  "  pm.expect(p).to.have.property('stock');",
+                  "  pm.expect(p).to.have.property('imageUrl');",
+                  "  pm.expect(p).to.have.property('category');",
+                  "  pm.expect(p.category).to.have.property('name');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-02: Price > 0 dan Stock >= 0', function() {",
+                  "  var p = pm.response.json().data.product;",
+                  "  pm.expect(p.price).to.be.greaterThan(0);",
+                  "  pm.expect(p.stock).to.be.greaterThanOrEqual(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/products/{{testProductId}}", "host": ["{{baseUrl}}"], "path": ["api","products","{{testProductId}}"] }
+          }
+        },
+
+        {
+          "name": "TC-API-03: GET Product — ID Tidak Ditemukan (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-03: Status code 404 Not Found', function() {",
+                  "  pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-03: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-03: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-03: Response success=false', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-03: Pesan error tidak ditemukan', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.error).to.equal('NOT_FOUND');",
+                  "  pm.expect(json.message).to.be.a('string').and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/products/produk-tidak-ada-id-xyz-999", "host": ["{{baseUrl}}"], "path": ["api","products","produk-tidak-ada-id-xyz-999"] }
+          }
+        },
+
+        {
+          "name": "TC-API-04: POST Create Product — Payload Valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-04: Status code 201 Created', function() {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-04: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-04: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-04: Produk berhasil dibuat', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.true;",
+                  "  pm.expect(json.data.product).to.be.an('object');",
+                  "  pm.environment.set('createdProductId', json.data.product.id);",
+                  "  pm.environment.set('createdProductSlug', json.data.product.slug);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-04: Data produk sesuai dengan request payload', function() {",
+                  "  var p = pm.response.json().data.product;",
+                  "  pm.expect(p.name).to.include('Test Product TC-API-04');",
+                  "  pm.expect(p.price).to.equal(150000);",
+                  "  pm.expect(p.stock).to.equal(25);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-04: Product ID tersimpan untuk test berikutnya', function() {",
+                  "  pm.expect(pm.environment.get('createdProductId')).to.not.be.empty;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-04: Message konfirmasi ada', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.message).to.be.a('string').and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Product TC-API-04 Vitamin Glow\",\n  \"description\": \"Produk test untuk API automation Phase 18 UTS\",\n  \"price\": 150000,\n  \"stock\": 25,\n  \"categoryId\": \"{{categoryId}}\",\n  \"imageUrl\": \"https://i.ibb.co/Fq8b2JJg/b6e34d83d6133fcba39583be7608ceb5.jpg\",\n  \"skinType\": \"Semua Jenis Kulit\",\n  \"ingredients\": \"Water, Vitamin C, Niacinamide\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api","products"] }
+          }
+        },
+
+        {
+          "name": "TC-API-05: POST Create Product — Tanpa Nama Produk (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-05: Status code 400 Bad Request', function() {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-05: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-05: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-05: Response success=false', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-05: Error code VALIDATION_ERROR', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.error).to.equal('VALIDATION_ERROR');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-05: Pesan error menyebut nama produk', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.message).to.be.a('string').and.not.empty;",
+                  "  pm.expect(json.message.toLowerCase()).to.include('nama');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Produk tanpa nama\",\n  \"price\": 100000,\n  \"stock\": 10,\n  \"categoryId\": \"{{categoryId}}\",\n  \"imageUrl\": \"https://i.ibb.co/test/image.jpg\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api","products"] }
+          }
+        },
+
+        {
+          "name": "TC-API-06: POST Create Product — Harga Negatif (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-06: Status code 400 Bad Request', function() {",
+                  "  pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-06: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-06: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-06: Response success=false', function() {",
+                  "  pm.expect(pm.response.json().success).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-06: Pesan error menyebut harga', function() {",
+                  "  var msg = pm.response.json().message.toLowerCase();",
+                  "  pm.expect(msg).to.include('harga');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-06: Produk tidak terbuat (tidak ada data.product)', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.data).to.be.undefined;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Produk Harga Negatif Test\",\n  \"description\": \"Test harga negatif\",\n  \"price\": -50000,\n  \"stock\": 10,\n  \"categoryId\": \"{{categoryId}}\",\n  \"imageUrl\": \"https://i.ibb.co/test/image.jpg\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api","products"] }
+          }
+        },
+
+        {
+          "name": "TC-API-07: PATCH Update Product — Payload Valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-07: Status code 200 OK', function() {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-07: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-07: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-07: Produk berhasil diperbarui', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.true;",
+                  "  pm.expect(json.data.product).to.be.an('object');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-07: Data produk sesuai dengan update payload', function() {",
+                  "  var p = pm.response.json().data.product;",
+                  "  pm.expect(p.price).to.equal(175000);",
+                  "  pm.expect(p.stock).to.equal(30);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-07: Field lain tidak berubah (name tetap ada)', function() {",
+                  "  var p = pm.response.json().data.product;",
+                  "  pm.expect(p.name).to.be.a('string').and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 175000,\n  \"stock\": 30\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products/{{createdProductId}}", "host": ["{{baseUrl}}"], "path": ["api","products","{{createdProductId}}"] }
+          }
+        },
+
+        {
+          "name": "TC-API-08: PATCH Update Product — ID Tidak Ditemukan (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-08: Status code 404 Not Found', function() {",
+                  "  pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-08: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-08: Response success=false', function() {",
+                  "  pm.expect(pm.response.json().success).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-08: Error code NOT_FOUND', function() {",
+                  "  pm.expect(pm.response.json().error).to.equal('NOT_FOUND');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-08: Pesan error tidak kosong', function() {",
+                  "  pm.expect(pm.response.json().message).to.be.a('string').and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 999999\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products/id-tidak-ada-xyz-update", "host": ["{{baseUrl}}"], "path": ["api","products","id-tidak-ada-xyz-update"] }
+          }
+        },
+
+        {
+          "name": "TC-API-09: DELETE Product — Hapus Produk yang Dibuat",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-09: Status code 200 OK', function() {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-09: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-09: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-09: Produk berhasil dihapus (soft delete)', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.true;",
+                  "  pm.expect(json.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-09: Produk tidak ada lagi (verifikasi via GET)', function() {",
+                  "  // Produk di-soft-delete: GET selanjutnya harus 404",
+                  "  pm.expect(pm.response.json().success).to.be.true;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/products/{{createdProductId}}", "host": ["{{baseUrl}}"], "path": ["api","products","{{createdProductId}}"] }
+          }
+        }
+
+      ]
+    },
+
+    {
+      "name": "TC-API Orders",
+      "description": "Test cases untuk endpoint pesanan (TC-API-10 s/d TC-API-12)",
+      "item": [
+
+        {
+          "name": "TC-API-10: POST Create Order — Data Valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-10: Status code 201 Created', function() {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: Response time < 15000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(15000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: Pesanan berhasil dibuat', function() {",
+                  "  var json = pm.response.json();",
+                  "  pm.expect(json.success).to.be.true;",
+                  "  pm.expect(json.data.order).to.be.an('object');",
+                  "  pm.environment.set('orderId', json.data.order.id);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: Status pesanan baru adalah DRAFT (BR-14)', function() {",
+                  "  var order = pm.response.json().data.order;",
+                  "  pm.expect(order.status).to.equal('DRAFT');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: Pesanan memiliki orderNumber unik', function() {",
+                  "  var order = pm.response.json().data.order;",
+                  "  pm.expect(order.orderNumber).to.be.a('string').and.not.empty;",
+                  "  pm.expect(order.orderNumber).to.match(/^LS-/);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: Field wajib pesanan tersedia', function() {",
+                  "  var order = pm.response.json().data.order;",
+                  "  pm.expect(order).to.have.property('id');",
+                  "  pm.expect(order).to.have.property('orderNumber');",
+                  "  pm.expect(order).to.have.property('status');",
+                  "  pm.expect(order).to.have.property('totalPrice');",
+                  "  pm.expect(order).to.have.property('recipientName');",
+                  "  pm.expect(order).to.have.property('shippingAddress');",
+                  "  pm.expect(order).to.have.property('phoneNumber');",
+                  "  pm.expect(order).to.have.property('items');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: totalPrice adalah angka positif', function() {",
+                  "  var order = pm.response.json().data.order;",
+                  "  pm.expect(order.totalPrice).to.be.a('number').and.greaterThan(0);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-10: Items pesanan tidak kosong', function() {",
+                  "  var order = pm.response.json().data.order;",
+                  "  pm.expect(order.items).to.be.an('array').and.not.empty;",
+                  "  pm.expect(order.items[0]).to.have.property('productId');",
+                  "  pm.expect(order.items[0]).to.have.property('quantity');",
+                  "  pm.expect(order.items[0]).to.have.property('unitPrice');",
+                  "  pm.expect(order.items[0]).to.have.property('subtotal');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipientName\": \"Team 1 UTS\",\n  \"shippingAddress\": \"Jl. Sultan Alauddin No. 259, Makassar, Sulawesi Selatan 90221\",\n  \"phoneNumber\": \"081234567890\",\n  \"notes\": \"Test pesanan via API Automation Phase 18\",\n  \"items\": [\n    { \"productId\": \"{{testProductId}}\", \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/orders", "host": ["{{baseUrl}}"], "path": ["api","orders"] }
+          }
+        },
+
+        {
+          "name": "TC-API-11: POST Create Order — Stok Tidak Mencukupi (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-11: Status code 422 Unprocessable Entity', function() {",
+                  "  pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-11: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-11: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-11: Response success=false', function() {",
+                  "  pm.expect(pm.response.json().success).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-11: Error menunjukkan stok tidak mencukupi', function() {",
+                  "  var json = pm.response.json();",
+                  "  var hasStockError = json.error === 'INSUFFICIENT_STOCK' ||",
+                  "    json.error === 'VALIDATION_ERROR' ||",
+                  "    (json.message && json.message.toLowerCase().includes('stok'));",
+                  "  pm.expect(hasStockError).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-11: Pesanan tidak terbuat', function() {",
+                  "  pm.expect(pm.response.json().data).to.be.undefined;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipientName\": \"Team 1\",\n  \"shippingAddress\": \"Jl. Test No. 1, Makassar\",\n  \"phoneNumber\": \"081234567890\",\n  \"items\": [\n    { \"productId\": \"{{testProductId}}\", \"quantity\": 999 }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/orders", "host": ["{{baseUrl}}"], "path": ["api","orders"] }
+          }
+        },
+
+        {
+          "name": "TC-API-12: PATCH Order Status — Transisi Tidak Valid DRAFT→COMPLETED (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('TC-API-12: Status code 422 Unprocessable Entity', function() {",
+                  "  pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-12: Response time < 10000ms', function() {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('TC-API-12: Content-Type adalah application/json', function() {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-12: Response success=false', function() {",
+                  "  pm.expect(pm.response.json().success).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test('TC-API-12: Error code INVALID_STATUS_TRANSITION', function() {",
+                  "  pm.expect(pm.response.json().error).to.equal('INVALID_STATUS_TRANSITION');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-12: Pesan error menjelaskan alasan penolakan', function() {",
+                  "  var msg = pm.response.json().message;",
+                  "  pm.expect(msg).to.be.a('string').and.not.empty;",
+                  "  pm.expect(msg.toLowerCase()).to.include('draft');",
+                  "});",
+                  "",
+                  "pm.test('TC-API-12: Status pesanan tidak berubah', function() {",
+                  "  // Verifikasi: karena transisi ditolak, status tetap DRAFT",
+                  "  pm.expect(pm.response.json().success).to.be.false;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"COMPLETED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","orders","{{orderId}}","status"]
+            }
+          }
+        }
+
+      ]
+    }
+
+  ]
+}
