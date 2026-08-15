@@ -1,0 +1,53 @@
+{
+  "validUser": {
+    "identifier": "user@lumiereskin.com",
+    "password": "Lumiere123!",
+    "name": "Team 1"
+  },
+  "adminUser": {
+    "identifier": "admin@lumiereskin.com",
+    "password": "Admin123!",
+    "name": "Admin LUMIÈRE SKIN"
+  },
+  "invalidUser": {
+    "identifier": "invalid@example.com",
+    "password": "wrongpassword123"
+  },
+  "wrongPasswordUser": {
+    "identifier": "user@lumiereskin.com",
+    "password": "salahPassword"
+  },
+  "emptyUser": {
+    "identifier": "",
+    "password": ""
+  },
+  "checkoutValid": {
+    "recipientName": "Sarah Putri",
+    "shippingAddress": "Jl. Sultan Alauddin No. 259, Makassar, Sulawesi Selatan 90221",
+    "phoneNumber": "081234567890",
+    "notes": "Mohon dikemas dengan aman"
+  },
+  "checkoutInvalidPhone": {
+    "recipientName": "Sarah Putri",
+    "shippingAddress": "Jl. Sultan Alauddin No. 259, Makassar",
+    "phoneNumber": "12345"
+  },
+  "checkoutEmptyName": {
+    "recipientName": "",
+    "shippingAddress": "Jl. Test Address",
+    "phoneNumber": "081234567890"
+  },
+  "checkoutEmptyAddress": {
+    "recipientName": "Sarah Putri",
+    "shippingAddress": "",
+    "phoneNumber": "081234567890"
+  },
+  "testProduct": {
+    "slug": "vitamin-c-brightening-serum",
+    "name": "Vitamin C Brightening Serum"
+  },
+  "testProductSecond": {
+    "slug": "niacinamide-10-pore-serum",
+    "name": "Niacinamide 10% Pore Serum"
+  }
+}

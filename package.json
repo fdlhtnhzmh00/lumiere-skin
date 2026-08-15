@@ -21,6 +21,7 @@
     "test:bdd": "cross-env TS_NODE_PROJECT=tsconfig.bdd.json cucumber-js",
     "test:e2e": "cypress run",
     "test:e2e:open": "cypress open",
+    "test:e2e:ci": "start-server-and-test dev http://localhost:3000 test:e2e",
     "test:api": "newman run tests/api/lumiere-skin.postman_collection.json --environment tests/api/lumiere-skin.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export tests/api/reports/report.html"
   },
   "prisma": {
@@ -59,6 +60,7 @@
     "eslint-config-next": "16.3.1",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
+    "start-server-and-test": "^3.0.12",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
