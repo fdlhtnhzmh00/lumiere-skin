@@ -14,6 +14,7 @@
     "db:update-images": "ts-node --project tsconfig.scripts.json prisma/update-images.ts",
     "test:cart-rules": "ts-node --compiler-options {\"module\":\"CommonJS\"} test-cart-rules.ts",
     "verify:order-flow": "ts-node --project tsconfig.scripts.json scripts/verify-order-flow.ts",
+    "verify:deployment": "ts-node --project tsconfig.scripts.json scripts/verify-deployment.ts",
     "db:studio": "prisma studio",
     "test": "jest",
     "test:watch": "jest --watch",
