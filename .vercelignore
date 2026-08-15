@@ -1,0 +1,19 @@
+# Vercel Ignore — file yang tidak perlu di-deploy
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Test files (tidak perlu di production)
+tests/
+cypress/
+docs/
+scripts/
+
+# Coverage reports
+coverage/
+
+# Temporary files
+*.tmp
+*.log
