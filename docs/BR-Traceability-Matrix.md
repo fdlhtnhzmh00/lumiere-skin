@@ -1,5 +1,6 @@
 # Business Rules Traceability Matrix — LUMIÈRE SKIN
 ## UTS Advanced Software Testing and Quality Assurance
+## Status: FINAL (Phase 20 — Quality Evaluation)
 
 ---
 
@@ -7,26 +8,26 @@
 
 | Kode BR | Deskripsi Business Rule | Lokasi Implementasi | Pengujian | Status |
 |---------|------------------------|--------------------|-----------|----|
-| **BR-01** | Nama produk wajib diisi (min 3, max 200 kar) | `lib/validations/product.ts` `validateProductName()` | `tests/unit/product.test.ts` (19 tests) | ✅ Verified |
-| **BR-02** | Harga produk harus lebih besar dari nol | `lib/validations/product.ts` `validateProductPrice()` | `tests/unit/product.test.ts` (13 tests) | ✅ Verified |
+| **BR-01** | Nama produk wajib diisi (min 3, max 200 kar) | `lib/validations/product.ts` `validateProductName()` | `tests/unit/product.test.ts` (19 tests) + CC Phase 14 | ✅ Verified |
+| **BR-02** | Harga produk harus lebih besar dari nol | `lib/validations/product.ts` `validateProductPrice()` | `tests/unit/product.test.ts` (13 tests) + CC Phase 14 | ✅ Verified |
 | **BR-03** | Stok produk tidak boleh bernilai negatif | `lib/validations/product.ts` `validateProductStock()` | `tests/unit/product.test.ts` (9 tests) | ✅ Verified |
 | **BR-04** | Harga = Float, Stok = Integer | `lib/validations/product.ts` `validateProductStock()` | `tests/unit/product.test.ts` (9 tests) | ✅ Verified |
-| **BR-05** | Jumlah minimal pembelian = 1 unit | `lib/validations/cart.ts` `validateCartQuantity()` | `tests/unit/cart.test.ts` (4 tests) | ✅ Verified |
-| **BR-06** | Jumlah maksimal pembelian = 10 unit per produk | `lib/validations/cart.ts` `CART_MAX_QUANTITY` | `tests/unit/cart.test.ts` (5 tests) | ✅ Verified |
-| **BR-07** | Jumlah tidak boleh melebihi stok tersedia | `lib/validations/cart.ts` `validateCartQuantity()` | `tests/unit/cart.test.ts` (5 tests) | ✅ Verified |
+| **BR-05** | Jumlah minimal pembelian = 1 unit | `lib/validations/cart.ts` `validateCartQuantity()` | `tests/unit/cart.test.ts` (4 tests) + CC Phase 14 | ✅ Verified |
+| **BR-06** | Jumlah maksimal pembelian = 10 unit per produk | `lib/validations/cart.ts` `CART_MAX_QUANTITY` | `tests/unit/cart.test.ts` (5 tests) + TC-UI-15 | ✅ Verified |
+| **BR-07** | Jumlah tidak boleh melebihi stok tersedia | `lib/validations/cart.ts` `validateCartQuantity()` | `tests/unit/cart.test.ts` (5 tests) + TC-API-11 | ✅ Verified |
 | **BR-08** | Jumlah harus bilangan bulat positif | `lib/validations/cart.ts` `validateCartQuantity()` | `tests/unit/cart.test.ts` (8 tests) | ✅ Verified |
-| **BR-09** | Pengguna harus login untuk checkout | `app/checkout/page.tsx` guard | `tests/unit/order.test.ts` (1 test) | ✅ Verified |
-| **BR-10** | Keranjang tidak boleh kosong saat checkout | `app/api/orders/route.ts`, `app/checkout/page.tsx` | `tests/unit/order.test.ts` (1 test) | ✅ Verified |
-| **BR-11** | Nama penerima wajib diisi | `lib/validations/order.ts` `validateCheckout()` | `tests/unit/order.test.ts` (2 tests) | ✅ Verified |
-| **BR-12** | Alamat pengiriman wajib diisi | `lib/validations/order.ts` `validateCheckout()` | `tests/unit/order.test.ts` (1 test) | ✅ Verified |
-| **BR-13** | Nomor telepon wajib diisi (format valid) | `lib/validations/order.ts` `validateCheckout()` | `tests/unit/order.test.ts` (3 tests) | ✅ Verified |
-| **BR-14** | Pesanan baru selalu berstatus DRAFT | `app/api/orders/route.ts` `status: "DRAFT"` | `scripts/verify-order-flow.ts` | ✅ Verified |
-| **BR-15** | DRAFT → CONFIRMED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `tests/unit/order.test.ts` + `scripts/verify-order-flow.ts` | ✅ Verified |
-| **BR-16** | DRAFT → CANCELLED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `tests/unit/order.test.ts` + `scripts/verify-order-flow.ts` | ✅ Verified |
-| **BR-17** | CONFIRMED → COMPLETED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `tests/unit/order.test.ts` + `scripts/verify-order-flow.ts` | ✅ Verified |
-| **BR-18** | CONFIRMED → CANCELLED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `tests/unit/order.test.ts` + `scripts/verify-order-flow.ts` | ✅ Verified |
-| **BR-19** | COMPLETED tidak dapat diubah status apapun | `lib/validations/order.ts` `validateStatusTransition()` | `tests/unit/order.test.ts` (4 tests) + e2e | ✅ Verified |
-| **BR-20** | CANCELLED tidak dapat diaktifkan kembali | `lib/validations/order.ts` `validateStatusTransition()` | `tests/unit/order.test.ts` (4 tests) + e2e | ✅ Verified |
+| **BR-09** | Pengguna harus login untuk checkout | `app/checkout/page.tsx` guard | `tests/unit/order.test.ts` (1 test) + TC-UI-19 + BDD S2 | ✅ Verified |
+| **BR-10** | Keranjang tidak boleh kosong saat checkout | `app/api/orders/route.ts`, `app/checkout/page.tsx` | `tests/unit/order.test.ts` (1 test) + TC-UI-20 + BDD S3 | ✅ Verified |
+| **BR-11** | Nama penerima wajib diisi | `lib/validations/order.ts` + `lib/validations/checkout.ts` | `tests/unit/order.test.ts` (2 tests) + TC-UI-18 + BDD S4 | ✅ Verified |
+| **BR-12** | Alamat pengiriman wajib diisi | `lib/validations/order.ts` `validateCheckout()` | `tests/unit/order.test.ts` (1 test) + TC-UI-17 | ✅ Verified |
+| **BR-13** | Nomor telepon wajib diisi (format valid) | `lib/validations/checkout.ts` `validateIndonesianPhone()` | `tests/unit/order.test.ts` (3 tests) + `tdd-checkout-validation.test.ts` + BDD S5 | ✅ Verified |
+| **BR-14** | Pesanan baru selalu berstatus DRAFT | `app/api/orders/route.ts` `status: "DRAFT"` | `scripts/verify-order-flow.ts` + TC-API-10 + BDD S1 | ✅ Verified |
+| **BR-15** | DRAFT → CONFIRMED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `state-transition.test.ts` + `verify-order-flow.ts` + BDD S6 | ✅ Verified |
+| **BR-16** | DRAFT → CANCELLED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `state-transition.test.ts` + `verify-order-flow.ts` | ✅ Verified |
+| **BR-17** | CONFIRMED → COMPLETED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `state-transition.test.ts` + `verify-order-flow.ts` | ✅ Verified |
+| **BR-18** | CONFIRMED → CANCELLED (valid) | `lib/validations/order.ts` `validateStatusTransition()` | `state-transition.test.ts` + `verify-order-flow.ts` | ✅ Verified |
+| **BR-19** | COMPLETED tidak dapat diubah status apapun | `lib/validations/order.ts` `validateStatusTransition()` | `state-transition.test.ts` (4 tests) + TC-API-12 + BDD S7 | ✅ Verified |
+| **BR-20** | CANCELLED tidak dapat diaktifkan kembali | `lib/validations/order.ts` `validateStatusTransition()` | `state-transition.test.ts` (4 tests) + `verify-order-flow.ts` | ✅ Verified |
 
 ---
 
